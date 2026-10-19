@@ -1,0 +1,3864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Localify — Local MP3 / OGG Player</title>
+<!-- Tab icon: the app's own green-disc-and-note mark, inlined as a data URI so
+     it still shows when index.html is opened straight off disk (file://) with
+     no sibling favicon file to fetch. The PNG is a fallback for Safari, which
+     does not support SVG favicons. -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2232%22%20fill%3D%22%231db954%22%2F%3E%3Cpath%20fill%3D%22%23000%22%20transform%3D%22translate(32%2032)%20scale(.92)%20translate(-32%20-32)%22%20d%3D%22M27.5%2015.2c0-.9.6-1.6%201.5-1.8l12.4-2.9c1.1-.3%202.1.5%202.1%201.6v5.3c0%20.8-.6%201.5-1.4%201.7l-9.9%202.3v18.4c0%203.6-2.6%206.8-6.3%207.6-4%20.9-7.9-1.4-8.7-5-.8-3.6%201.8-7.2%205.8-8.1%201.7-.4%203.4-.2%204.8.4z%22%2F%3E%3C%2Fsvg%3E" />
+<link rel="alternate icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACz0lEQVR4AcRUPU8UURS99wU/KnEKrXYLLUmEuNYGG4PGGIuFDhKTtbYRf4XYWLOJCXZAYYwRtJFYswZMKKVYKklYsfKDzPWeNzvDzDL7ZoYdsi/v7nt737nnnPm6hnKO659mRisf67PV9fpida2+WV2fPtCQbhwEufoiMMDmpKVMA5UP9XGI/vPlJwsvEXGDmGtE5GmE0yOb4wYwwKIGtSGg3+o0UF2bXmDDWwRRKjrUjNaCw1WZaqDyfuaGXsEmMT1zFec6Uw5wgTMNf8KAOr7NI7JBxLjNVM7gGjjB3cuXMGBdMr1VkKdR9vRIua1GjDlhgEf813rmaRSaf7b36debHfrxfIPaUyuE/30IvK5GdBwZ0NuzQAVuO0RCQayHSzsuYToeXAu0gow1YD8XfVmCVL5fiMJEPnQPSrWspqatATb0VPelzQvjVzK5Qk0TdC1uZFY4ABBEXH0xSQgHNHbEDWibv+I/jGULb7UVW1EIwwQiLwm0DQvdoSENaBsSujkkfYK2IeZrQzOg2kbFCzcerSlrejBQFtmpeGCgk6cSTQfNB60Wa56aHJiOvoSymwUM+zxMABuu2A8UIruGmL4ORDJIsWobYfpMGeP31n4qokjTSSOAtjnP5l3aYTx3cSK9t/fLx2tde2ib73eXD7UjNF3AS7NjNDo3FkFw5Wi9yEfJwhtpQtugTnx6hdUVEEPfR0AcJlz4rLNQ0xrYu7+6TUIvs4pKO1ctq6mE1oCu1L63Mq+PooX92Ya0Aq1AJTKAv3JkHuuaqzEp7jSz09WIak20083eg+Vv+ige6fYsTHTAbTVUIJwJA0jq7fkiRzxZ7uOQFjjBDY14nDCAQ7hsT63eUseDv5j6woELnODujVQDIUgdz4svE3o3nH0ixCdXaaIWHMl88p/TAKD4XPQKnpwzfFlY5qwZEXwt8fdEny9yKqoYYFGDWnC44j8AAAD//0N1jLwAAAAGSURBVAMAIXgb0jXl4r8AAAAASUVORK5CYII=" />
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACz0lEQVR4AcRUPU8UURS99wU/KnEKrXYLLUmEuNYGG4PGGIuFDhKTtbYRf4XYWLOJCXZAYYwRtJFYswZMKKVYKklYsfKDzPWeNzvDzDL7ZoYdsi/v7nt737nnnPm6hnKO659mRisf67PV9fpida2+WV2fPtCQbhwEufoiMMDmpKVMA5UP9XGI/vPlJwsvEXGDmGtE5GmE0yOb4wYwwKIGtSGg3+o0UF2bXmDDWwRRKjrUjNaCw1WZaqDyfuaGXsEmMT1zFec6Uw5wgTMNf8KAOr7NI7JBxLjNVM7gGjjB3cuXMGBdMr1VkKdR9vRIua1GjDlhgEf813rmaRSaf7b36debHfrxfIPaUyuE/30IvK5GdBwZ0NuzQAVuO0RCQayHSzsuYToeXAu0gow1YD8XfVmCVL5fiMJEPnQPSrWspqatATb0VPelzQvjVzK5Qk0TdC1uZFY4ABBEXH0xSQgHNHbEDWibv+I/jGULb7UVW1EIwwQiLwm0DQvdoSENaBsSujkkfYK2IeZrQzOg2kbFCzcerSlrejBQFtmpeGCgk6cSTQfNB60Wa56aHJiOvoSymwUM+zxMABuu2A8UIruGmL4ORDJIsWobYfpMGeP31n4qokjTSSOAtjnP5l3aYTx3cSK9t/fLx2tde2ib73eXD7UjNF3AS7NjNDo3FkFw5Wi9yEfJwhtpQtugTnx6hdUVEEPfR0AcJlz4rLNQ0xrYu7+6TUIvs4pKO1ctq6mE1oCu1L63Mq+PooX92Ya0Aq1AJTKAv3JkHuuaqzEp7jSz09WIak20083eg+Vv+ige6fYsTHTAbTVUIJwJA0jq7fkiRzxZ7uOQFjjBDY14nDCAQ7hsT63eUseDv5j6woELnODujVQDIUgdz4svE3o3nH0ixCdXaaIWHMl88p/TAKD4XPQKnpwzfFlY5qwZEXwt8fdEny9yKqoYYFGDWnC44j8AAAD//0N1jLwAAAAGSURBVAMAIXgb0jXl4r8AAAAASUVORK5CYII=" />
+<style>
+  :root{
+    --bg:#121212; --bg-elev:#181818; --bg-elev2:#242424;
+    --sidebar:#000000; --bar:#181818; --text:#ffffff;
+    --text-sub:#b3b3b3; --green:#1db954; --green-h:#1ed760;
+    --line:#2a2a2a; --hover:#1a1a1a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--text); overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  ::-webkit-scrollbar{width:12px}
+  ::-webkit-scrollbar-thumb{background:#4d4d4d;border-radius:6px;border:3px solid transparent;background-clip:content-box}
+  ::-webkit-scrollbar-thumb:hover{background:#797979;background-clip:content-box}
+
+  /* ---------- Layout ---------- */
+  .app{
+    display:grid;
+    grid-template-columns:var(--sidebar-w,20%) 1fr 0px;
+    grid-template-rows:1fr 90px;
+    height:100vh; gap:8px; padding:8px;
+    transition: grid-template-columns .28s cubic-bezier(.2,.8,.2,1);
+  }
+  .app.detail-open{
+    grid-template-columns:var(--sidebar-w,20%) 1fr 380px;
+  }
+  /* While dragging the divider, kill the grid transition so it tracks the cursor 1:1 */
+  .app.resizing{transition:none; cursor:col-resize; user-select:none}
+  .sidebar{
+    grid-row:1; grid-column:1;
+    background:var(--sidebar); border-radius:8px;
+    display:flex; flex-direction:column; overflow:hidden;
+    position:relative;
+  }
+  /* Draggable divider on the sidebar's right edge */
+  .resizer{
+    position:absolute; top:0; right:-5px; width:10px; height:100%;
+    cursor:col-resize; z-index:10;
+  }
+  .resizer::after{
+    content:""; position:absolute; top:0; left:4px; width:2px; height:100%;
+    background:transparent; transition:background .15s;
+  }
+  .resizer:hover::after,.app.resizing .resizer::after{background:var(--green)}
+  .main{
+    grid-row:1; grid-column:2;
+    background:linear-gradient(180deg,#2a2a2a 0%, var(--bg) 220px);
+    border-radius:8px; overflow:hidden; display:flex; flex-direction:column;
+  }
+  .nowbar{
+    grid-row:2; grid-column:1 / span 2;
+    background:var(--bar); border-top:1px solid var(--line);
+    border-radius:8px;
+    display:grid; grid-template-columns:30% 40% 30%; align-items:center;
+    padding:0 16px;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .brand{display:flex;align-items:center;gap:10px;padding:20px 22px 12px}
+  .brand .logo{width:30px;height:30px;border-radius:50%;
+    background:var(--green);display:grid;place-items:center;color:#000;font-weight:900}
+  .brand h1{font-size:19px;letter-spacing:-.4px}
+  .nav{padding:6px 8px}
+  .nav button{
+    width:100%; text-align:left; display:flex; align-items:center; gap:16px;
+    padding:10px 14px; border-radius:6px; color:var(--text-sub);
+    font-weight:700; font-size:15px;
+  }
+  .nav button:hover,.nav button.active{color:#fff;background:#1a1a1a}
+  .nav .ic{width:22px;text-align:center;font-size:18px}
+  .lib{margin-top:8px;flex:1;display:flex;flex-direction:column;min-height:0;
+    background:var(--bg-elev);border-radius:8px;margin:8px;}
+  .lib-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+  .lib-head span{color:var(--text-sub);font-weight:700;display:flex;align-items:center;gap:12px}
+  .lib-head .addbtn{color:var(--text-sub);font-size:22px;line-height:1;width:32px;height:32px;border-radius:50%}
+  .lib-head .addbtn:hover{color:#fff;background:#2a2a2a}
+  .playlists{overflow-y:auto;padding:0 8px 8px;flex:1}
+  .pl{display:flex;align-items:center;gap:12px;padding:8px;border-radius:6px;cursor:pointer}
+  .pl:hover{background:#1f1f1f}
+  .pl.active{background:#2a2a2a}
+  .pl .art{width:48px;height:48px;border-radius:4px;background:#333;display:grid;place-items:center;
+    overflow:hidden;flex:none;font-size:20px;color:#777}
+  .pl .art img{width:100%;height:100%;object-fit:cover}
+  .pl .meta{min-width:0}
+  .pl .meta .t{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pl .meta .s{color:var(--text-sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lib-empty{color:var(--text-sub);font-size:13px;padding:10px 16px;line-height:1.5}
+
+  /* ---------- Main / topbar ---------- */
+  .topbar{display:flex;align-items:center;gap:16px;padding:14px 24px;position:sticky;top:0}
+  .search{flex:1;max-width:420px;position:relative}
+  .search input{
+    width:100%;background:var(--bg-elev2);border:1px solid transparent;border-radius:20px;
+    color:#fff;padding:10px 16px 10px 42px;font-size:14px;outline:none}
+  .search input:focus{border-color:#fff}
+  .search .si{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-sub)}
+  .topbtn{background:var(--green);color:#000;font-weight:800;border-radius:20px;padding:10px 18px;font-size:14px;white-space:nowrap}
+  .topbtn:hover{background:var(--green-h);transform:scale(1.03)}
+  .topbtn.ghost{background:#000;color:#fff;border:1px solid #555}
+  .topbtn.ghost:hover{border-color:#fff;background:#000}
+
+  .content{flex:1;overflow-y:auto;padding:0 24px 24px;position:relative}
+
+  /* Hero header for current playlist */
+  .hero{display:flex;align-items:flex-end;gap:24px;padding:16px 0 24px}
+  .hero .cover{width:200px;height:200px;border-radius:6px;background:#333;flex:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.5);display:grid;place-items:center;overflow:hidden;font-size:64px;color:#777}
+  .hero .cover img{width:100%;height:100%;object-fit:cover}
+  .hero .info .kind{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+  .hero .info h2{font-size:48px;line-height:1.1;margin:8px 0 14px;font-weight:900;letter-spacing:-2px}
+  .hero .info .sub{color:var(--text-sub);font-size:14px}
+  .hero .info .sub b{color:#fff}
+
+  .actions{display:flex;align-items:center;gap:24px;padding:8px 0 16px}
+  .playall{width:56px;height:56px;border-radius:50%;background:var(--green);color:#000;
+    display:grid;place-items:center;font-size:22px;box-shadow:0 8px 16px rgba(0,0,0,.4)}
+  .playall:hover{background:var(--green-h);transform:scale(1.05)}
+  .iconbtn{color:var(--text-sub);font-size:26px;
+    width:56px;height:56px;border-radius:50%;background:transparent;
+    display:grid;place-items:center}
+  .iconbtn:hover{color:#fff}
+
+  /* Track table */
+  .tracks{width:100%}
+  .thead,.trow{
+    display:grid;grid-template-columns:24px 4fr 3fr 2fr 28px 64px;gap:16px;align-items:center;
+    padding:8px 16px;border-radius:4px}
+  .thead{color:var(--text-sub);font-size:12px;text-transform:uppercase;letter-spacing:.5px;
+    border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:1}
+  .thead .r{text-align:right}
+  .trow{color:var(--text-sub);cursor:pointer}
+  .trow:hover{background:#ffffff14}
+  .trow.selected{background:#1db95433}
+  .trow.selected:hover{background:#1db95440}
+  .trow.playing{color:var(--green)}
+  .trow.playing .title{color:var(--green)}
+  /* The loaded-but-paused track — after a resume there are no animated bars to
+     mark it, so tint it the same green as the playing row. */
+  .trow.current{color:var(--green)}
+  .trow.current .title{color:var(--green)}
+  .trow .idx{display:grid;place-items:center;font-variant-numeric:tabular-nums}
+  .trow .idx .bars{display:none}
+  .trow.playing .idx .num{display:none}
+  .trow.playing .idx .bars{display:flex;gap:2px;height:14px;align-items:flex-end}
+  .trow .cell{min-width:0;display:flex;align-items:center;gap:12px}
+  .trow .tart{width:40px;height:40px;border-radius:4px;background:#333;flex:none;overflow:hidden;display:grid;place-items:center;color:#777;font-size:16px}
+  .trow .tart img{width:100%;height:100%;object-fit:cover}
+  .trow .tmeta{min-width:0}
+  .trow .title{color:#fff;font-weight:500;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trow .artist{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trow .col{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+  .trow .dur{text-align:right;font-variant-numeric:tabular-nums;font-size:14px}
+  /* Favorite (♥) toggle. Hidden until the row is hovered unless it's already on,
+     so the column reads as empty rather than as a wall of grey hearts. */
+  .favbtn{width:24px;height:24px;display:grid;place-items:center;font-size:15px;line-height:1;
+    color:var(--text-sub);opacity:0;transition:opacity .12s,color .12s,transform .12s}
+  .trow:hover .favbtn,.favbtn:focus-visible{opacity:1}
+  .favbtn:hover{color:#fff;transform:scale(1.15)}
+  .favbtn.on{opacity:1;color:var(--green)}
+  .favbtn.on:hover{color:var(--green-h)}
+  .bars span{width:3px;background:var(--green);animation:eq .9s ease-in-out infinite}
+  .bars span:nth-child(1){animation-delay:-.2s}
+  .bars span:nth-child(2){animation-delay:-.5s}
+  .bars span:nth-child(3){animation-delay:-.1s}
+  @keyframes eq{0%,100%{height:30%}50%{height:100%}}
+
+  /* Virtualized track list: only visible rows exist in the DOM */
+  .vlist{position:relative;width:100%}
+  .vlist .trow{position:absolute;left:0;right:0;height:56px;contain:layout style paint}
+  .scanbadge{display:inline-block;margin-left:10px;font-size:11px;font-weight:700;color:#000;
+    background:var(--green);border-radius:10px;padding:2px 9px;vertical-align:middle}
+  /* Persistent identification status pill in the top bar */
+  .idstatus{display:none;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#000;
+    background:var(--green);border-radius:10px;padding:4px 10px;margin-left:6px;white-space:nowrap}
+  .idstatus.show{display:inline-flex}
+  .idstatus.busy{background:#3a3a3a;color:#fff}
+  .idstatus .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.85}
+  .idstatus.busy .dot{animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+  /* Empty / dropzone */
+  .empty{display:grid;place-items:center;height:100%;text-align:center;color:var(--text-sub);padding:40px}
+  .empty .big{font-size:64px;margin-bottom:14px}
+  .empty h3{color:#fff;font-size:24px;margin-bottom:8px}
+  .empty p{font-size:14px;max-width:420px;line-height:1.6;margin-bottom:20px}
+  .dragover{outline:3px dashed var(--green);outline-offset:-12px}
+
+  /* ---------- Now playing bar ---------- */
+  .np-left{display:flex;align-items:center;gap:14px;min-width:0}
+  .np-art{width:56px;height:56px;border-radius:6px;background:#333;flex:none;overflow:hidden;display:grid;place-items:center;color:#777;font-size:22px}
+  .np-art img{width:100%;height:100%;object-fit:cover}
+  .np-meta{min-width:0}
+  .np-meta .t{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .np-meta .a{font-size:12px;color:var(--text-sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* Now-bar favorite toggle. Always visible (unlike the row hearts) so the
+     current track's state is readable at a glance. */
+  .np-fav{flex:none;width:32px;height:32px;border-radius:50%;font-size:17px;line-height:1;
+    color:var(--text-sub);background:transparent;display:grid;place-items:center;
+    transition:color .12s,transform .12s}
+  .np-fav:hover{color:#fff;transform:scale(1.12)}
+  .np-fav.on{color:var(--green)}
+  .np-fav.on:hover{color:var(--green-h)}
+  .np-fav[hidden]{display:none}
+  .np-center{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .controls{display:flex;align-items:center;gap:22px}
+  .controls button{color:var(--text-sub);font-size:20px;
+    width:48px;height:48px;border-radius:50%;background:transparent;
+    display:grid;place-items:center}
+  .controls button:hover{color:#fff}
+  .controls button.on{color:var(--green)}
+  .controls .play{background:#fff;color:#000 !important}
+  .play:hover{transform:scale(1.06);color:#000}
+  #shuffleBtn,#prevBtn,#nextBtn,#repeatBtn{width:48px !important;height:48px !important;border-radius:50%;background:transparent;display:grid;place-items:center;font-size:28px}
+  #repeatBtn svg{width:24px;height:24px;display:block}
+
+  .seekwrap{display:flex;align-items:center;gap:10px;width:100%;max-width:600px}
+  .time{font-size:11px;color:var(--text-sub);font-variant-numeric:tabular-nums;width:40px;text-align:center}
+  .np-right{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+  .volwrap{display:flex;align-items:center;gap:8px;width:140px}
+
+  /* sliders */
+  .slider{-webkit-appearance:none;appearance:none;height:4px;background:#5a5a5a;border-radius:2px;outline:none;cursor:pointer;width:100%}
+  .slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#fff;opacity:0;transition:opacity .1s}
+  .slider::-moz-range-thumb{width:12px;height:12px;border:none;border-radius:50%;background:#fff;opacity:0}
+  .slider:hover::-webkit-slider-thumb{opacity:1}
+  .slider:hover::-moz-range-thumb{opacity:1}
+  .slider:hover{background:linear-gradient(90deg,var(--green) var(--p,0%), #5a5a5a var(--p,0%))}
+  .slider{background:linear-gradient(90deg,#fff var(--p,0%), #5a5a5a var(--p,0%))}
+  .slider:hover{background:linear-gradient(90deg,var(--green) var(--p,0%), #5a5a5a var(--p,0%))}
+
+  .hidden{display:none !important}
+
+  /* ---------- Track detail panel (from np-art click) ---------- */
+  .detail-panel{
+    grid-column:3; grid-row:1;
+    background:var(--bg-elev); border-radius:8px; z-index:5;
+    display:flex; flex-direction:column; overflow:hidden;
+    box-shadow:none;
+    transform:translateX(20px); opacity:0;
+    transition:transform .28s cubic-bezier(.2,.8,.2,1), opacity .22s ease;
+  }
+  .app.detail-open .detail-panel{transform:translateX(0); opacity:1}
+  .dp-head{display:flex; align-items:center; justify-content:space-between; padding:14px 16px 10px}
+  .dp-head h2{font-size:18px; letter-spacing:-.3px}
+  .dp-head .x{font-size:20px; color:var(--text-sub); width:30px; height:30px; border-radius:50%}
+  .dp-head .x:hover{color:#fff; background:#2a2a2a}
+  .dp-body{overflow-y:auto; padding:0 14px 18px; flex:1}
+  .dp-art{width:100%; aspect-ratio:1/1; border-radius:6px; background:#222; display:grid; place-items:center; overflow:hidden; margin-bottom:14px}
+  .dp-art img{width:100%; height:100%; object-fit:cover}
+  .dp-title{font-size:22px; font-weight:800; line-height:1.2; margin-bottom:2px; word-break:break-word}
+  .dp-sub{color:var(--text-sub); font-size:14px; margin-bottom:16px}
+  .dp-table{width:100%; border-collapse:collapse; font-size:13px}
+  .dp-table tr td{padding:7px 0; vertical-align:top; line-height:1.35}
+  .dp-table tr td:first-child{color:var(--text-sub); width:110px; padding-right:10px}
+  .dp-table tr td:last-child{word-break:break-all}
+  .dp-table tr + tr td{border-top:1px solid var(--line)}
+  .dp-delete{margin-top:22px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:11px 14px;border-radius:22px;font-size:14px;font-weight:800;
+    color:#f0616d;border:1px solid #5a2a2e;background:transparent}
+  .dp-delete:hover{background:#3a2326;color:#ff7a85;border-color:#ff7a85}
+
+  /* ---------- Queue / Up-next panel ---------- */
+  .np-right .qbtn.on{color:var(--green)}
+  .queue-panel{
+    position:fixed; top:8px; right:8px; bottom:98px; width:360px; max-width:90vw;
+    background:var(--bg-elev); border-radius:8px; z-index:40;
+    display:flex; flex-direction:column; overflow:hidden;
+    box-shadow:-8px 0 40px rgba(0,0,0,.5);
+    transform:translateX(calc(100% + 16px)); transition:transform .28s cubic-bezier(.2,.8,.2,1);
+  }
+  .queue-panel.open{transform:translateX(0)}
+  .qp-head{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 10px}
+  .qp-head h2{font-size:20px;letter-spacing:-.4px}
+  .qp-head .x{font-size:22px;color:var(--text-sub);width:32px;height:32px;border-radius:50%}
+  .qp-head .x:hover{color:#fff;background:#2a2a2a}
+  .qp-body{overflow-y:auto;padding:0 8px 14px;flex:1}
+  .qp-sec{color:var(--text-sub);font-size:13px;font-weight:700;padding:14px 10px 6px;display:flex;justify-content:space-between;align-items:center}
+  .qp-sec .clearq{font-size:12px;color:var(--text-sub);font-weight:600}
+  .qp-sec .clearq:hover{color:#fff;text-decoration:underline}
+  .qitem{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:6px;cursor:pointer;position:relative}
+  .qitem:hover{background:#ffffff14}
+  .qitem.current{background:transparent}
+  .qitem.dragging{opacity:.4}
+  .qitem.dragover-top{box-shadow:inset 0 2px 0 var(--green)}
+  .qitem.dragover-bot{box-shadow:inset 0 -2px 0 var(--green)}
+  .qitem .qart{width:44px;height:44px;border-radius:4px;background:#333;flex:none;overflow:hidden;display:grid;place-items:center;color:#777;font-size:16px}
+  .qitem .qart img{width:100%;height:100%;object-fit:cover}
+  .qitem .qm{min-width:0;flex:1}
+  .qitem .qm .t{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
+  .qitem.current .qm .t{color:var(--green)}
+  .qitem .qm .a{font-size:12px;color:var(--text-sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .qitem .qx{opacity:0;color:var(--text-sub);font-size:16px;width:26px;height:26px;border-radius:50%;flex:none}
+  .qitem:hover .qx{opacity:1}
+  .qitem .qx:hover{color:#fff;background:#2a2a2a}
+  .qitem .grip{opacity:0;color:var(--text-sub);cursor:grab;font-size:15px;flex:none}
+  .qitem:hover .grip{opacity:.7}
+  .qp-empty{color:var(--text-sub);font-size:13px;padding:24px 12px;text-align:center;line-height:1.6}
+
+  /* ---------- Context menu ---------- */
+  .ctxmenu{position:fixed;z-index:60;background:#282828;border-radius:6px;padding:4px;min-width:200px;
+    box-shadow:0 8px 28px rgba(0,0,0,.5);font-size:14px;display:none}
+  .ctxmenu.open{display:block}
+  .ctxmenu button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;color:#eee;
+    padding:10px 12px;border-radius:4px;font-weight:500}
+  .ctxmenu button:hover{background:#3e3e3e}
+  .ctxmenu button.danger{color:#f0616d}
+  .ctxmenu button.danger:hover{background:#3a2326;color:#ff7a85}
+  .ctxmenu .sep{height:1px;background:#3e3e3e;margin:4px 6px}
+  .ctxmenu .sub{position:relative}
+  .ctxmenu .sub>.flyout{position:absolute;left:100%;top:0;background:#282828;border-radius:6px;padding:4px;
+    min-width:190px;box-shadow:0 8px 28px rgba(0,0,0,.5);display:none;max-height:320px;overflow-y:auto}
+  .ctxmenu .sub:hover>.flyout{display:block}
+  .ctxmenu .arrow{margin-left:auto;color:var(--text-sub)}
+
+  /* ---------- Modal (create playlist) ---------- */
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:70;display:none;place-items:center}
+  .modal-bg.open{display:grid}
+  /* Capped to the viewport and laid out as a column so a long body scrolls
+     instead of pushing the buttons off the bottom of the screen. */
+  .modal{
+    background:#282828;border-radius:10px;padding:24px;width:420px;max-width:92vw;
+    max-height:86vh;display:flex;flex-direction:column;
+  }
+  .modal h3{font-size:22px;margin-bottom:18px;flex:0 0 auto}
+  .modal .modal-body{
+    flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+    color:var(--text-sub);font-size:14px;line-height:1.55;margin-bottom:22px;
+    scrollbar-width:thin;
+  }
+  .modal input{width:100%;background:#3e3e3e;border:1px solid transparent;border-radius:4px;color:#fff;
+    padding:12px 14px;font-size:15px;outline:none;margin-bottom:20px}
+  .modal input:focus{border-color:var(--green)}
+  .modal .row{display:flex;justify-content:flex-end;gap:10px;flex:0 0 auto}
+  .modal input{flex:0 0 auto}
+  .topbtn.danger-btn{background:#e02434;color:#fff}
+  .topbtn.danger-btn:hover{background:#f0313f}
+
+  /* ---------- Multi-select action bar ---------- */
+  .selbar{display:none;align-items:center;gap:14px;margin:0 24px 4px;padding:10px 16px;
+    background:var(--bg-elev2);border:1px solid var(--line);border-radius:8px}
+  .selbar.show{display:flex}
+  .selbar .selcount{font-weight:800;font-size:14px;color:#fff;margin-right:auto}
+  .selbar .topbtn{padding:8px 16px;font-size:13px}
+  .pl .plicon{font-size:18px}
+  .secthead{color:var(--text-sub);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:12px 10px 4px}
+
+  .toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);
+    background:#fff;color:#000;font-weight:700;font-size:14px;padding:12px 20px;border-radius:6px;
+    box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:50;opacity:0;transition:opacity .25s, transform .25s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
+
+  /* ---------- Albums grid ---------- */
+  .albums-page-head{font-size:32px;font-weight:900;letter-spacing:-.8px;padding:24px 0 22px;color:#fff}
+  .albums-head-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .albums-head-row .albums-page-head{flex:none}
+  .albums-filter{
+    position:relative;display:flex;align-items:center;
+    margin-left:auto;min-width:230px;max-width:320px;flex:1 1 230px;
+  }
+  .albums-filter .af-ic{
+    position:absolute;left:12px;font-size:15px;color:var(--text-sub);pointer-events:none;
+  }
+  .albums-filter input{
+    width:100%;background:var(--bg-elev2);border:1px solid transparent;color:var(--text);
+    border-radius:20px;padding:9px 34px 9px 32px;font-size:13px;font-family:inherit;outline:none;
+  }
+  .albums-filter input:focus{border-color:#555;background:#2c2c2c}
+  .albums-filter input::placeholder{color:var(--text-sub)}
+  .albums-filter button{
+    position:absolute;right:8px;width:22px;height:22px;border-radius:50%;
+    color:var(--text-sub);font-size:12px;display:grid;place-items:center;
+  }
+  .albums-filter button:hover{background:#3d3d3d;color:#fff}
+  /* Section divider for albums that have no cover art */
+  .albums-subhead{
+    display:flex;align-items:baseline;gap:12px;
+    margin:10px 0 18px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:19px;font-weight:800;color:#fff;letter-spacing:-.3px;
+  }
+  .albums-subhead .asub-count{font-size:13px;font-weight:600;color:var(--text-sub)}
+  .albums-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(175px,1fr));
+    gap:24px;padding:0 0 32px;
+  }
+  .album-card{
+    background:var(--bg-elev);border-radius:8px;padding:16px 16px 14px;
+    cursor:pointer;transition:background .15s;
+  }
+  .album-card:hover{background:#1f1f1f}
+  .ac-art{
+    width:100%;aspect-ratio:1/1;border-radius:6px;background:#333;
+    display:grid;place-items:center;overflow:hidden;font-size:52px;color:#777;
+    margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.5);position:relative;
+  }
+  .ac-art img{width:100%;height:100%;object-fit:cover}
+  .ac-play{
+    position:absolute;bottom:8px;right:8px;
+    width:46px;height:46px;border-radius:50%;
+    background:var(--green);color:#000 !important;font-size:18px;
+    display:grid;place-items:center;
+    opacity:0;transform:translateY(10px);
+    transition:opacity .2s,transform .2s;
+    box-shadow:0 4px 16px rgba(0,0,0,.5);
+    z-index:2;border:none;cursor:pointer;
+  }
+  .album-card:hover .ac-play{opacity:1;transform:translateY(0)}
+  .ac-play:hover{background:var(--green-h) !important;transform:translateY(0) scale(1.06) !important}
+  .ac-title{
+    font-size:15px;font-weight:700;color:#fff;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;
+  }
+  .ac-sub{
+    font-size:13px;color:var(--text-sub);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  /* Breadcrumb back button above hero when navigating from albums grid */
+  .hero-back{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--text-sub);font-size:13px;font-weight:700;
+    background:none;border:none;cursor:pointer;padding:0 0 2px;
+    letter-spacing:.2px;margin-bottom:6px;
+  }
+  .hero-back:hover{color:#fff}
+  .hero-back .hb-arrow{font-size:20px;font-weight:900;line-height:1;position:relative;top:1px}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">♪</div>
+      <h1>Localify</h1>
+    </div>
+    <nav class="nav">
+      <button class="active" id="navHome"><span class="ic">⌂</span> Home</button>
+      <button id="navAlbums"><span class="ic">💿</span> Albums</button>
+      <button id="navSearch"><span class="ic">⌕</span> Search</button>
+      <button id="navNewPlaylist"><span class="ic">＋</span> Create Playlist</button>
+    </nav>
+    <div class="lib">
+      <div class="lib-head">
+        <span><span class="ic">≡</span> Your Library</span>
+        <div style="display:flex;align-items:center;gap:4px">
+          <button class="addbtn" id="clearBtn" title="Clear library (remove all tracks)" style="font-size:16px">🗑</button>
+          <button class="addbtn" id="addBtn" title="Add local files">＋</button>
+        </div>
+      </div>
+      <div class="playlists" id="playlists">
+        <div class="lib-empty">No music yet.<br>Click <b>＋</b> or “Add Music” to load local MP3 / OGG files from your computer.</div>
+      </div>
+    </div>
+    <div class="resizer" id="sidebarResizer" title="Drag to resize"></div>
+  </aside>
+
+  <!-- Main -->
+  <section class="main" id="main">
+    <div class="topbar">
+      <div class="search">
+        <span class="si">⌕</span>
+        <input id="search" type="text" placeholder="Search in your library" />
+      </div>
+      <button class="topbtn ghost" id="addFolderBtn">Add Folder</button>
+      <button class="topbtn" id="addMusicBtn">＋ Add Music</button>
+      <button class="addbtn" id="settingsBtn" title="Settings" style="font-size:18px;margin-left:2px">⚙</button>
+      <span class="idstatus" id="idStatus"><span class="dot"></span><span id="idStatusText"></span></span>
+      <button class="topbtn ghost" id="importSpotifyBtn" title="Import a Spotify playlist">Import Spotify</button>
+    </div>
+    <!-- Multi-select action bar (appears when tracks are selected) -->
+    <div class="selbar" id="selBar">
+      <span class="selcount" id="selCount">0 selected</span>
+      <button class="topbtn ghost" id="selIdentify">🔎 Identify</button>
+      <button class="topbtn danger-btn" id="selDelete">🗑 Delete</button>
+      <button class="topbtn ghost" id="selClear">Clear</button>
+    </div>
+    <div class="content" id="content">
+      <div class="empty" id="emptyState">
+        <div class="big">🎧</div>
+        <h3>Your library is empty</h3>
+        <p>Drag &amp; drop <b>.mp3</b> or <b>.ogg</b> files here, or load a folder.
+           Everything stays on your device — nothing is uploaded.</p>
+        <div style="display:flex;gap:12px">
+          <button class="topbtn" id="addMusicBtn2">＋ Add Music</button>
+          <button class="topbtn ghost" id="addFolderBtn2">Add Folder</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Now playing bar -->
+  <footer class="nowbar">
+    <div class="np-left">
+      <div class="np-art" id="npArt">♪</div>
+      <div class="np-meta">
+        <div class="t" id="npTitle">—</div>
+        <div class="a" id="npArtist">Select a track</div>
+      </div>
+      <button class="np-fav" id="npFav" title="Save to Liked Songs" hidden>♡</button>
+    </div>
+    <div class="np-center">
+      <div class="controls">
+        <button id="shuffleBtn" title="Shuffle">⤨</button>
+        <button id="prevBtn" title="Previous">⏮</button>
+        <button class="play" id="playBtn" title="Play">▶</button>
+        <button id="nextBtn" title="Next">⏭</button>
+        <button id="repeatBtn" title="Repeat">⟲</button>
+      </div>
+      <div class="seekwrap">
+        <span class="time" id="curTime">0:00</span>
+        <input class="slider" id="seek" type="range" min="0" max="1000" value="0" />
+        <span class="time" id="durTime">0:00</span>
+      </div>
+    </div>
+    <div class="np-right">
+      <button id="queueBtn" class="qbtn" title="Queue">≣</button>
+      <button id="muteBtn" title="Mute">🔊</button>
+      <div class="volwrap">
+        <input class="slider" id="vol" type="range" min="0" max="100" value="100" />
+      </div>
+    </div>
+  </footer>
+
+  <!-- Track detail panel (inside the grid so it pushes content, not overlays it) -->
+  <aside class="detail-panel" id="detailPanel">
+    <div class="dp-head">
+      <h2>Track Info</h2>
+      <button class="x" id="detailClose" title="Close">✕</button>
+    </div>
+    <div class="dp-body" id="detailBody">
+      <div class="dp-empty" style="color:var(--text-sub);padding:24px 6px;text-align:center">Select a track to see details.</div>
+    </div>
+  </aside>
+</div>
+<input type="file" id="fileInput" accept=".mp3,.ogg,.oga,audio/mpeg,audio/ogg" multiple class="hidden" />
+<input type="file" id="folderInput" webkitdirectory directory multiple class="hidden" />
+<div class="toast" id="toast"></div>
+<audio id="audio"></audio>
+
+<!-- Queue / up-next panel -->
+<aside class="queue-panel" id="queuePanel">
+  <div class="qp-head">
+    <h2>Queue</h2>
+    <button class="x" id="queueClose" title="Close">✕</button>
+  </div>
+  <div class="qp-body" id="queueBody"></div>
+</aside>
+
+<!-- Right-click / ⋯ context menu -->
+<div class="ctxmenu" id="ctxMenu"></div>
+
+<!-- Create-playlist modal -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3 id="modalTitle">Create playlist</h3>
+    <input type="text" id="modalInput" placeholder="My Playlist" maxlength="80" />
+    <div class="row">
+      <button class="topbtn ghost" id="modalCancel">Cancel</button>
+      <button class="topbtn" id="modalOk">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm (Are you sure?) modal -->
+<div class="modal-bg" id="confirmBg">
+  <div class="modal">
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <div id="confirmMsg" class="modal-body"></div>
+    <div class="row">
+      <button class="topbtn ghost" id="confirmCancel">Cancel</button>
+      <button class="topbtn danger-btn" id="confirmOk">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div class="modal-bg" id="settingsBg">
+  <div class="modal">
+    <h3>Settings</h3>
+    <p style="color:var(--text-sub);font-size:13px;line-height:1.55;margin:0 0 6px">
+      Audio fingerprinting finds the correct song when local tags are missing or wrong.
+      It uses the free <b>AcoustID</b> service — you need an API key (no payment).
+    </p>
+    <label style="display:block;font-size:13px;font-weight:700;margin:14px 0 6px">AcoustID API key</label>
+    <input type="text" id="acoustidKeyInput" placeholder="paste your free key" autocomplete="off" spellcheck="false" />
+    <p style="color:var(--text-sub);font-size:12px;margin:8px 0 0">
+      Get one free at <span style="color:var(--green)">acoustid.org</span> (apply by email). Only a short audio
+      fingerprint leaves your device — no files are uploaded.
+    </p>
+    <label style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;margin:16px 0 4px;cursor:pointer">
+      <input type="checkbox" id="identifyToggle" style="width:auto" /> Auto-identify unknown tracks
+    </label>
+    <label style="display:block;font-size:13px;font-weight:700;margin:18px 0 6px">Spotify token <span style="font-weight:400;color:var(--text-sub)">(for playlist import)</span></label>
+    <input type="text" id="spotifyTokenInput" placeholder="paste a Spotify access token" autocomplete="off" spellcheck="false" />
+    <p style="color:var(--text-sub);font-size:12px;margin:8px 0 0">
+      Used only to read playlist tracks + cover art. Generate one at
+      <span style="color:var(--green)">developer.spotify.com/console/get-playlist</span> (OAuth token), or any token tool.
+    </p>
+    <label style="display:block;font-size:13px;font-weight:700;margin:18px 0 6px">Library cleanup</label>
+    <p style="color:var(--text-sub);font-size:12px;margin:0 0 8px">
+      Finds the same file imported more than once (e.g. added via both “Add Folder” and
+      “Add Music”). Only removes the extra entries from Localify — never deletes from disk.
+    </p>
+    <div class="row" style="margin-top:18px">
+      <button class="topbtn" id="identifyNowBtn">Identify missing now</button>
+      <button class="topbtn ghost" id="dedupeBtn">Remove duplicates</button>
+      <button class="topbtn ghost" id="settingsClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Chromaprint (AcoustID fingerprint) — vendored, runs fully offline -->
+<script src="chromaprint.js"></script>
+
+<script>
+"use strict";
+/* ============================================================
+   Localify — a local-only MP3 / OGG player (single file).
+   Custom metadata parsers (no external libs, works offline).
+   ============================================================ */
+
+const $ = (id) => document.getElementById(id);
+const audio = $("audio");
+
+const state = {
+  tracks: [],           // all loaded tracks
+  view: [],             // filtered/ordered list currently shown
+  queue: [],            // playback order (track ids)
+  qpos: -1,             // position in queue
+  currentId: null,
+  playing: false,
+  shuffle: false,
+  repeat: 0,            // 0 off, 1 all, 2 one
+  search: "",
+  lastVol: 1,
+  playlists: [],        // [{id, name, trackKeys:[...], created}]
+  manualQueue: [],      // ids the user explicitly queued ("Play next" / "Add to queue")
+  selected: new Set(),  // track ids currently multi-selected (for bulk delete)
+};
+let _selAnchor = null;  // last row clicked, used as the shift-range anchor
+let _idSeq = 1;
+let _plSeq = 1;
+
+/* ============================================================
+   IDENTIFY CONFIG  — AcoustID audio fingerprinting
+   The AcoustID web service needs a free API key. The user pastes
+   theirs in Settings (stored locally in localStorage). Until a key
+   is present, fingerprinting is dormant and the app behaves exactly
+   as before. Fingerprints are computed on-device; only a short hash
+   leaves the machine (no audio is uploaded). Results come from
+   MusicBrainz + the Cover Art Archive (both CORS-open, no proxy).
+   ============================================================ */
+const CONFIG = {
+  get acoustidKey(){ return localStorage.getItem("localify.acoustidKey") || ""; },
+  set acoustidKey(v){ v ? localStorage.setItem("localify.acoustidKey", v) : localStorage.removeItem("localify.acoustidKey"); },
+  get identifyEnabled(){
+    const s = localStorage.getItem("localify.identifyEnabled");
+    return s === null ? true : s === "1";   // on by default once a key exists
+  },
+  set identifyEnabled(v){ localStorage.setItem("localify.identifyEnabled", v ? "1" : "0"); },
+  get hasKey(){ return this.acoustidKey.trim().length >= 10; },
+  // Spotify Web API access token (paste a token you generated; the token
+  // endpoint has no CORS so the browser can't mint one itself).
+  get spotifyToken(){ return localStorage.getItem("localify.spotifyToken") || ""; },
+  set spotifyToken(v){ v ? localStorage.setItem("localify.spotifyToken", v) : localStorage.removeItem("localify.spotifyToken"); },
+  get hasSpotify(){ return this.spotifyToken.trim().length > 10; }
+};
+// Shared AudioContext (created lazily after a user gesture to satisfy autoplay policies).
+let _audioCtx = null;
+function getAudioContext(){
+  if(!_audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    _audioCtx = new AC();
+  }
+  if(_audioCtx.state === "suspended") _audioCtx.resume();
+  return _audioCtx;
+}
+// Decode a track's Blob into a mono Float32Array (resampled implicitly by
+// decodeAudioData at the file's own rate; Chromaprint resamples to 11025).
+async function decodeMono(track){
+  const ac = getAudioContext();
+  const arr = await track.file.arrayBuffer();
+  const buf = await ac.decodeAudioData(arr);
+  const ch0 = buf.getChannelData(0);
+  // buf.duration is the decoder's exact answer — more reliable than <audio>
+  // metadata, which reports 0/Infinity/NaN for VBR MP3s with no Xing header.
+  if(buf.numberOfChannels === 1) return { samples: ch0, sampleRate: buf.sampleRate, duration: buf.duration };
+  // mix down to mono
+  const mix = new Float32Array(buf.length);
+  for(let c=0;c<buf.numberOfChannels;c++){
+    const d = buf.getChannelData(c);
+    for(let i=0;i<buf.length;i++) mix[i] += d[i];
+  }
+  for(let i=0;i<buf.length;i++) mix[i] /= buf.numberOfChannels;
+  return { samples: mix, sampleRate: buf.sampleRate, duration: buf.duration };
+}
+// A duration we can actually send to AcoustID.
+function validDuration(d){ return typeof d === "number" && isFinite(d) && d >= 1; }
+
+/* ---------- Utilities ---------- */
+function fmtBytes(b){
+  if(b<1024) return b+" B";
+  if(b<1024*1024) return (b/1024).toFixed(1)+" KB";
+  return (b/(1024*1024)).toFixed(2)+" MB";
+}
+function fmtTime(sec){
+  if(!isFinite(sec) || sec<0) sec=0;
+  const m=Math.floor(sec/60), s=Math.floor(sec%60);
+  return m+":"+String(s).padStart(2,"0");
+}
+function toast(msg){
+  const t=$("toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),2200);
+}
+// Persistent identification status pill in the top bar.
+// state: "busy" | "done" | "hidden"
+function updateIdStatus(state, n, done, total, label){
+  const el=$("idStatus"), txt=$("idStatusText");
+  if(state==="hidden" || !el){ if(el) el.classList.remove("show","busy"); return; }
+  if(state==="busy"){
+    el.classList.add("show","busy");
+    // Show progress for a batch — identifying a whole album takes a while and a
+    // static "Identifying…" gives no sense of whether it's still moving.
+    // `total` is always the TRACK count, never the number of internal passes:
+    // an album batch runs two passes over the same tracks, and counting those
+    // made the denominator read double the number of tracks being identified.
+    const verb = label || "Identifying";
+    txt.textContent = total ? (verb+" "+done+"/"+total+"…") : (verb+"…");
+  }
+  else if(state==="done"){
+    el.classList.add("show"); el.classList.remove("busy");
+    txt.textContent="Identified " + (n||0) + " track" + ((n||0)===1?"":"s");
+  }
+}
+function baseName(name){ return name.replace(/\.[^/.]+$/,""); }
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+/* ============================================================
+   PERSISTENCE — IndexedDB (remembers your library across sessions)
+   Stores the original file Blob + parsed metadata + cover bytes,
+   keyed by name|size so reopening the app restores everything,
+   including playback.
+   ============================================================ */
+const DB_NAME="localify", DB_STORE="tracks", DB_BLOBS="blobs", DB_PL="playlists", DB_APP="appstate", DB_VER=3;
+let _dbPromise=null;
+function idbReady(){
+  if(_dbPromise) return _dbPromise;
+  _dbPromise=new Promise((res,rej)=>{
+    if(!("indexedDB" in window)){ rej(new Error("no-indexeddb")); return; }
+    const r=indexedDB.open(DB_NAME,DB_VER);
+    r.onupgradeneeded=()=>{
+      const db=r.result;
+      if(!db.objectStoreNames.contains(DB_STORE)) db.createObjectStore(DB_STORE,{keyPath:"key"});
+      if(!db.objectStoreNames.contains(DB_BLOBS)) db.createObjectStore(DB_BLOBS,{keyPath:"key"});
+      if(!db.objectStoreNames.contains(DB_PL))    db.createObjectStore(DB_PL,{keyPath:"id"});
+      if(!db.objectStoreNames.contains(DB_APP))   db.createObjectStore(DB_APP,{keyPath:"k"});
+    };
+    r.onsuccess=()=>res(r.result);
+    r.onerror=()=>rej(r.error);
+  });
+  return _dbPromise;
+}
+async function idbAll(store=DB_STORE){
+  let db; try{ db=await idbReady(); }catch(e){ return []; }
+  return new Promise((res)=>{
+    const tx=db.transaction(store,"readonly");
+    const rq=tx.objectStore(store).getAll();
+    rq.onsuccess=()=>res(rq.result||[]);
+    rq.onerror=()=>res([]);
+  });
+}
+async function idbPutMany(records, store=DB_STORE){
+  if(!records.length) return;
+  let db; try{ db=await idbReady(); }catch(e){ return; }
+  return new Promise((res)=>{
+    const tx=db.transaction(store,"readwrite");
+    const st=tx.objectStore(store);
+    for(const r of records){ try{ st.put(r); }catch(e){} }
+    tx.oncomplete=()=>res();
+    tx.onerror=()=>res();
+    tx.onabort=()=>res();
+  });
+}
+async function idbPut(record, store){ return idbPutMany([record], store); }
+async function idbDelete(key, store){
+  let db; try{ db=await idbReady(); }catch(e){ return; }
+  return new Promise((res)=>{
+    const tx=db.transaction(store,"readwrite");
+    tx.objectStore(store).delete(key);
+    tx.oncomplete=()=>res(); tx.onerror=()=>res();
+  });
+}
+async function idbGet(key, store){
+  let db; try{ db=await idbReady(); }catch(e){ return null; }
+  return new Promise((res)=>{
+    const tx=db.transaction(store,"readonly");
+    const rq=tx.objectStore(store).get(key);
+    rq.onsuccess=()=>res(rq.result||null);
+    rq.onerror=()=>res(null);
+  });
+}
+async function idbClear(store=DB_STORE){
+  let db; try{ db=await idbReady(); }catch(e){ return; }
+  return new Promise((res)=>{
+    const tx=db.transaction(store,"readwrite");
+    tx.objectStore(store).clear();
+    tx.oncomplete=()=>res(); tx.onerror=()=>res();
+  });
+}
+// Lightweight metadata record (NO blob) — tiny, so frequent updates during the
+// tag scan are cheap. The heavy audio Blob lives in a separate 'blobs' store and
+// is written exactly ONCE at import time. 'tagged' records whether the worker
+// has finished reading this file's tags, so a restore knows what still needs it.
+function trackToRecord(t){
+  return {
+    key:t.key, name:t.name, size:t.size, ext:t.ext,
+    title:t.title, artist:t.artist, album:t.album, albumArtist:t.albumArtist||null,
+    duration:t.duration||0,
+    picBytes:t.picBytes||null, picMime:t.picMime||null, tagged:!!t.meta,
+    remoteArtUrl:t.remoteArtUrl||null,
+    acoustid:t.acoustid||null,        // MusicBrainz recording/release IDs from identification
+    fingerprint:t.fingerprint||null,  // computed Chromaprint (base64) — avoids recompute
+    fpVersion:t.fpVersion||0,         // algorithm version the cached fingerprint came from
+    identified:!!t.identified,        // true once an AcoustID lookup succeeded
+    manualMeta:!!t.manualMeta,        // user/library tags the user trusts; skip overwrite
+    favorite:!!t.favorite,            // in Liked Songs
+    favoritedAt:t.favoritedAt||0,     // when — Liked Songs lists newest first
+    // Spotify-imported (remote) tracks: no local file, play via preview_url.
+    remote:!!t.remote, previewUrl:t.previewUrl||null, spotifyUri:t.spotifyUri||null,
+    albumArt:t.albumArt||null,
+    // File System Access handles (only present for folders imported via the
+    // FSA picker). They're structured-cloneable, so IndexedDB persists them and
+    // "Delete from disk" still works after a reload (permission is re-requested).
+    fileHandle:t.fileHandle||null, parentHandle:t.parentHandle||null, relPath:t.relPath||null
+  };
+}
+function blobToRecord(t){ return {key:t.key, blob:t.file}; }
+// Debounced batch writer: coalesce many metadata updates into few transactions.
+const _dirty=new Map(); let _flushTimer=null;
+function persistTrack(t){ _dirty.set(t.key, trackToRecord(t)); scheduleFlush(); }
+function scheduleFlush(){
+  if(_flushTimer) return;
+  _flushTimer=setTimeout(async()=>{
+    _flushTimer=null;
+    if(!_dirty.size) return;
+    const recs=[..._dirty.values()]; _dirty.clear();
+    await idbPutMany(recs);
+  }, 400);
+}
+
+/* ============================================================
+   METADATA PARSERS — run inside a Web Worker (off the main thread)
+   The parser source below is identical in logic to the original
+   ID3v2 / OGG-Vorbis readers, but cover art is returned as raw
+   transferable bytes ({bytes, mime}) instead of an object URL,
+   since URL.createObjectURL isn't available to all worker contexts
+   and transferring bytes is zero-copy.
+   ============================================================ */
+const WORKER_SRC = `
+self.onmessage = async (e)=>{
+  const {id, file, isMp3} = e.data;
+  let meta=null;
+  try{
+    // Format decided by the explicit isMp3 flag passed from the main thread —
+    // NOT file.name, because Blobs restored from IndexedDB have no .name.
+    meta = isMp3 ? await parseID3(file) : await parseOGG(file);
+  }catch(err){ meta=null; }
+  const transfer=[];
+  if(meta && meta.picture && meta.picture.bytes) transfer.push(meta.picture.bytes);
+  self.postMessage({id, meta}, transfer);
+};
+
+function bytesToPic(u8, mime){
+  const ab = u8.slice().buffer;   // exact-size copy -> own ArrayBuffer (transferable)
+  return { bytes: ab, mime: mime||"image/jpeg" };
+}
+
+/* ---- ID3v2 (MP3) ---- */
+async function parseID3(file){
+  const head = new Uint8Array(await file.slice(0, 10).arrayBuffer());
+  if(head[0]!==0x49||head[1]!==0x44||head[2]!==0x33) return null;
+  const major = head[3];
+  const flags = head[5];
+  const size = synchsafe(head[6],head[7],head[8],head[9]);
+  const buf = new Uint8Array(await file.slice(10, 10+size).arrayBuffer());
+  const dv = new DataView(buf.buffer);
+  let pos = 0;
+  if(flags & 0x40){
+    const extSize = (major===4) ? synchsafe(buf[0],buf[1],buf[2],buf[3]) : dv.getUint32(0,false);
+    pos += extSize;
+  }
+  const out = {};
+  while(pos + (major===2?6:10) <= buf.length){
+    let id, frameSize;
+    if(major===2){
+      id = String.fromCharCode(buf[pos],buf[pos+1],buf[pos+2]);
+      frameSize = (buf[pos+3]<<16)|(buf[pos+4]<<8)|buf[pos+5];
+      pos += 6;
+    } else {
+      id = String.fromCharCode(buf[pos],buf[pos+1],buf[pos+2],buf[pos+3]);
+      frameSize = (major===4) ? synchsafe(buf[pos+4],buf[pos+5],buf[pos+6],buf[pos+7]) : dv.getUint32(pos+4,false);
+      pos += 10;
+    }
+    if(id.charCodeAt(0)===0 || frameSize<=0) break;
+    if(pos+frameSize > buf.length) break;
+    const frame = buf.subarray(pos, pos+frameSize);
+    if(id==="TIT2"||id==="TT2") out.title = readTextFrame(frame);
+    else if(id==="TPE1"||id==="TP1") out.artist = readTextFrame(frame);
+    else if(id==="TALB"||id==="TAL") out.album = readTextFrame(frame);
+    else if(id==="APIC"||id==="PIC") out.picture = readAPIC(frame, id==="PIC");
+    pos += frameSize;
+  }
+  return out;
+}
+function synchsafe(a,b,c,d){ return ((a&0x7f)<<21)|((b&0x7f)<<14)|((c&0x7f)<<7)|(d&0x7f); }
+function decodeText(enc, bytes){
+  try{
+    if(enc===0) return new TextDecoder("iso-8859-1").decode(bytes);
+    if(enc===1) return new TextDecoder("utf-16").decode(bytes);
+    if(enc===2) return new TextDecoder("utf-16be").decode(bytes);
+    return new TextDecoder("utf-8").decode(bytes);
+  }catch(e){ return new TextDecoder("utf-8").decode(bytes); }
+}
+function readTextFrame(frame){
+  const enc = frame[0];
+  return decodeText(enc, frame.subarray(1)).replace(/\\0+$/,"").trim();
+}
+function readAPIC(frame, isV2){
+  const enc = frame[0];
+  let i = 1, mime;
+  if(isV2){
+    mime = "image/"+String.fromCharCode(frame[1],frame[2],frame[3]).toLowerCase();
+    i = 4;
+  } else {
+    let j=i; while(j<frame.length && frame[j]!==0) j++;
+    mime = new TextDecoder("iso-8859-1").decode(frame.subarray(i,j));
+    i = j+1;
+  }
+  i += 1;
+  if(enc===1||enc===2){
+    while(i+1<frame.length && !(frame[i]===0 && frame[i+1]===0)) i+=2;
+    i+=2;
+  } else {
+    while(i<frame.length && frame[i]!==0) i++;
+    i+=1;
+  }
+  const data = frame.subarray(i);
+  if(data.length<4) return null;
+  return bytesToPic(data, mime||"image/jpeg");
+}
+
+/* ---- OGG Vorbis comments ---- */
+async function parseOGG(file){
+  const slice = await file.slice(0, Math.min(file.size, 1024*1024)).arrayBuffer();
+  const bytes = new Uint8Array(slice);
+  const payload = []; let p = 0, totalLen = 0, pages = 0;
+  while(p+27 <= bytes.length && pages < 64){
+    if(!(bytes[p]===0x4f&&bytes[p+1]===0x67&&bytes[p+2]===0x67&&bytes[p+3]===0x53)) break;
+    const segCount = bytes[p+26];
+    if(p+27+segCount > bytes.length) break;
+    let dataLen = 0;
+    for(let s=0;s<segCount;s++) dataLen += bytes[p+27+s];
+    const dataStart = p+27+segCount;
+    if(dataStart+dataLen > bytes.length){
+      payload.push(bytes.subarray(dataStart, bytes.length)); totalLen += (bytes.length-dataStart); break;
+    }
+    payload.push(bytes.subarray(dataStart, dataStart+dataLen));
+    totalLen += dataLen; p = dataStart + dataLen; pages++;
+    if(totalLen > 900*1024) break;
+  }
+  const stream = new Uint8Array(totalLen);
+  { let o=0; for(const part of payload){ stream.set(part,o); o+=part.length; } }
+  const sig = [0x03,0x76,0x6f,0x72,0x62,0x69,0x73];
+  let idx = indexOfSeq(stream, sig);
+  if(idx<0) return null;
+  let q = idx + 7;
+  const dv = new DataView(stream.buffer, stream.byteOffset, stream.byteLength);
+  if(q+4>stream.length) return null;
+  const vendorLen = dv.getUint32(q,true); q+=4; q += vendorLen;
+  if(q+4>stream.length) return null;
+  const count = dv.getUint32(q,true); q+=4;
+  const out={};
+  for(let c=0;c<count && q+4<=stream.length;c++){
+    const len = dv.getUint32(q,true); q+=4;
+    if(q+len>stream.length) break;
+    const str = new TextDecoder("utf-8").decode(stream.subarray(q,q+len));
+    q += len;
+    const eq = str.indexOf("=");
+    if(eq<0) continue;
+    const key = str.slice(0,eq).toUpperCase();
+    const val = str.slice(eq+1);
+    if(key==="TITLE") out.title=val;
+    else if(key==="ARTIST" && !out.artist) out.artist=val;
+    else if(key==="ALBUM") out.album=val;
+    else if(key==="METADATA_BLOCK_PICTURE"){ try{ out.picture = pictureFromFlacBlock(val); }catch(e){} }
+  }
+  return out;
+}
+function indexOfSeq(buf, seq){
+  outer: for(let i=0;i<=buf.length-seq.length;i++){
+    for(let j=0;j<seq.length;j++) if(buf[i+j]!==seq[j]) continue outer;
+    return i;
+  }
+  return -1;
+}
+function pictureFromFlacBlock(b64){
+  const raw = atob(b64);
+  const u = new Uint8Array(raw.length);
+  for(let i=0;i<raw.length;i++) u[i]=raw.charCodeAt(i);
+  const dv = new DataView(u.buffer);
+  let o=0; o+=4;
+  const mimeLen = dv.getUint32(o,false); o+=4;
+  const mime = new TextDecoder().decode(u.subarray(o,o+mimeLen)); o+=mimeLen;
+  const descLen = dv.getUint32(o,false); o+=4; o+=descLen;
+  o+=16;
+  const dataLen = dv.getUint32(o,false); o+=4;
+  const data = u.subarray(o,o+dataLen);
+  return bytesToPic(data, mime||"image/jpeg");
+}
+`;
+
+/* ---- Worker pool: parses metadata across N threads, promise-based ---- */
+class ParserPool{
+  constructor(n){
+    this.workers=[]; this.idle=[]; this.q=[]; this.jobs=new Map(); this.seq=1;
+    this.ok=false;
+    try{
+      const url=URL.createObjectURL(new Blob([WORKER_SRC],{type:"text/javascript"}));
+      for(let i=0;i<n;i++){
+        const w=new Worker(url);
+        w.onmessage=(e)=>{
+          const {id,meta}=e.data;
+          const job=this.jobs.get(id); this.jobs.delete(id);
+          this.idle.push(w); this.pump();
+          if(job) job.resolve(meta);
+        };
+        w.onerror=()=>{ /* keep pool alive; task will fall back */ };
+        this.workers.push(w); this.idle.push(w);
+      }
+      this.ok=this.workers.length>0;
+    }catch(e){ this.ok=false; }
+  }
+  parse(file, isMp3){
+    if(!this.ok) return Promise.resolve(null);
+    return new Promise((resolve)=>{ this.q.push({file,isMp3,resolve}); this.pump(); });
+  }
+  pump(){
+    while(this.idle.length && this.q.length){
+      const w=this.idle.pop();
+      const task=this.q.shift();
+      const id=this.seq++;
+      this.jobs.set(id,task);
+      try{ w.postMessage({id,file:task.file,isMp3:task.isMp3}); }
+      catch(e){ this.jobs.delete(id); this.idle.push(w); task.resolve(null); }
+    }
+  }
+}
+// Pool size scales with cores, capped to keep memory sane.
+const pool = new ParserPool(Math.min(4, Math.max(2,(navigator.hardwareConcurrency||4)-1)));
+
+/* ============================================================
+   LOADING FILES  (batched + throttled — scales to 1000s of files)
+   ============================================================ */
+const ROW_H = 56;                 // fixed row height for virtualization
+const scan = { remaining: 0 };    // tracks outstanding tag-reads for the badge
+let _renderPending = false;
+
+// Coalesce many render requests into a single one per animation frame.
+function scheduleRender(){
+  if(_renderPending) return;
+  _renderPending = true;
+  requestAnimationFrame(()=>{
+    _renderPending=false;
+    rebuildLibrary();
+    // Let renderAlbumsPage's own cache key decide whether the shell needs
+    // rebuilding — forcing it here would steal focus from the filter box during
+    // background updates (e.g. an identify batch streaming in).
+    if(_albumsView){ renderAlbumsPage(); }
+    else { render(); }
+  });
+}
+
+// True when two import paths denote the same file: identical filename, and one
+// path is a folder-boundary suffix of the other ("CD1/13 x.mp3" vs "13 x.mp3",
+// or "Trance/CD1/13 x.mp3" vs "CD1/13 x.mp3"). Requiring the boundary stops
+// "13 x.mp3" from matching "b13 x.mp3".
+function samePathTail(a, b){
+  a = String(a||"").replace(/\\/g,"/").toLowerCase();
+  b = String(b||"").replace(/\\/g,"/").toLowerCase();
+  if(!a || !b) return false;
+  if(a === b) return true;
+  const [long, short] = a.length >= b.length ? [a,b] : [b,a];
+  return long.endsWith("/" + short);
+}
+
+async function addFiles(fileList){
+  const files = Array.from(fileList).filter(f=>/\.(mp3|ogg|oga)$/i.test(f.name));
+  if(!files.length){ toast("No .mp3 / .ogg files found"); return; }
+
+  // Dedupe in O(1) using a Set instead of O(n) Array.some per file.
+  // Key prefers the folder-relative path (populated for folder / drag-drop
+  // imports, including mounted network drives) so two same-named, same-size
+  // files in different album folders don't collide and silently drop one.
+  const seen = new Set(state.tracks.map(t=>t.key));
+  // The key is path-based so two same-named files in different album folders
+  // stay distinct. But that alone lets the SAME file in twice when it's
+  // imported under a different root — "Add Folder" on the album gives
+  // "CD1/13 x.mp3" while "Add Music" on the same file gives "13 x.mp3", two
+  // different keys for one file on disk. Match those up by identity instead.
+  const known = state.tracks.map(t=>({ size:t.size, path:t.relPath||t.name||"" }));
+  const fresh=[];
+  for(const file of files){
+    const rel = file.webkitRelativePath || file._relPath || file.name;
+    const key = rel+"|"+file.size;
+    if(seen.has(key)) continue;
+    if(known.some(k => k.size===file.size && samePathTail(k.path, rel))) continue;
+    seen.add(key);
+    known.push({ size:file.size, path:rel });
+    fresh.push({
+      id:_idSeq++, key, file, name:file.name, size:file.size,
+      title:baseName(file.name), artist:"Unknown Artist", album:"Local Files",
+      picture:null, picBytes:null, picMime:null, duration:0,
+      url:URL.createObjectURL(file),
+      ext:(file.name.split(".").pop()||"").toLowerCase(), meta:false,
+      // FSA handles (set by the directory picker; absent for <input>/drag-drop)
+      fileHandle:file._fsHandle||null, parentHandle:file._fsParent||null, relPath:rel
+    });
+  }
+  if(!fresh.length){ toast("Those tracks are already in your library"); return; }
+
+  state.tracks.push(...fresh);
+  rebuildLibrary(); render();   // list appears INSTANTLY (filenames first)
+  toast(fresh.length+" track"+(fresh.length>1?"s":"")+" added — reading tags…");
+
+  // Persist right away so even an immediate reload keeps them. Metadata and the
+  // heavy audio blobs go to SEPARATE stores; blobs are written once and never
+  // rewritten during the tag scan (that was the import-slowdown bug).
+  idbPutMany(fresh.map(trackToRecord), DB_STORE);
+  // Blobs are persisted in CHUNKS rather than one huge transaction. On a network
+  // drive reading hundreds of files at once is slow and memory-heavy, and a
+  // single dropped connection would abort the whole batch — chunking lets the
+  // import make incremental, durable progress.
+  persistBlobsChunked(fresh);
+
+  scan.remaining += fresh.length;
+  runScan(fresh);               // tags + art + duration fill in progressively
+}
+
+// Write audio blobs to the blobs store in small batches so large/slow
+// (e.g. network-mounted) imports persist incrementally instead of all at once.
+async function persistBlobsChunked(list, chunk=25){
+  for(let i=0;i<list.length;i+=chunk){
+    const slice=list.slice(i,i+chunk);
+    try{ await idbPutMany(slice.map(blobToRecord), DB_BLOBS); }
+    catch(e){ /* keep going; a later reload re-persists anything missing */ }
+  }
+}
+
+// Metadata parsing now happens in the Web Worker pool (off the main thread).
+// Each completed track is persisted (debounced) so tags/art survive reloads.
+async function runScan(list){
+  // Duration still needs a main-thread <audio>, but it's cheap and we bound it.
+  const DUR_CONCURRENCY = 6;
+  let di = 0;
+  const tagJobs = list.map(t => parseMetaWorker(t));
+  const durWorker = async ()=>{
+    while(di < list.length){
+      const t = list[di++];
+      if(!t.duration){ await getDuration(t); }   // skip if already known (re-scan)
+      persistTrack(t);
+      scheduleRender();
+    }
+  };
+  await Promise.all([
+    Promise.all(tagJobs),
+    ...Array.from({length:DUR_CONCURRENCY}, durWorker)
+  ]);
+  scan.remaining = 0;
+  scheduleRender();
+  fetchMissingArt();   // iTunes Search art for tracks with usable tags
+  identifyMissing();   // audio-fingerprint the rest (unknown/wrong tags)
+}
+
+async function parseMetaWorker(t){
+  try{
+    const isMp3 = (t.ext||"").toLowerCase()==="mp3" || /\.mp3$/i.test(t.name||"");
+    const meta = await pool.parse(t.file, isMp3);
+    if(meta){
+      if(meta.title) t.title=meta.title;
+      if(meta.artist) t.artist=meta.artist;
+      if(meta.album) t.album=meta.album;
+      if(meta.picture && meta.picture.bytes){
+        // Keep raw bytes for persistence; build an object URL for display.
+        t.picBytes = meta.picture.bytes;
+        t.picMime  = meta.picture.mime||"image/jpeg";
+        t.picture  = URL.createObjectURL(new Blob([t.picBytes],{type:t.picMime}));
+      }
+    }
+  }catch(e){ /* fall back to filename */ }
+  t.meta = true;
+  scan.remaining = Math.max(0, scan.remaining-1);
+  persistTrack(t);
+  scheduleRender();
+}
+
+// Reuse-and-release a single throwaway audio element per call (bounded by
+// CONCURRENCY above), and clear src when done to free the decoder.
+function getDuration(t){
+  return new Promise(res=>{
+    const a=new Audio();
+    a.preload="metadata";
+    const done=()=>{ a.removeAttribute("src"); a.load && a.load(); res(); };
+    // Guard against Infinity/NaN, which <audio> reports for VBR MP3s that have
+    // no Xing/VBRI header. Leaving those in place poisons anything downstream
+    // that does arithmetic on the duration (bitrate display, AcoustID lookup);
+    // 0 means "unknown" and identify recovers the real value from the decoder.
+    a.onloadedmetadata=()=>{ t.duration = validDuration(a.duration) ? a.duration : 0; done(); };
+    a.onerror=done;
+    a.src=t.url;
+  });
+}
+
+/* ============================================================
+   REMOTE ALBUM ART  — iTunes Search API (open CORS, no key needed)
+   Runs after local tag scan completes. Groups art-less tracks by
+   "artist|album" so we hit the API once per album, not once per track.
+   Results are stored as remoteArtUrl (a CDN URL) — no bytes are
+   persisted (they're cheap to re-fetch), but the URL is saved so
+   we skip the lookup on next load.
+   ============================================================ */
+
+// Per-album fetch state so concurrent re-renders don't double-fetch.
+const _remoteArtFetching = new Set();   // "artist|album" keys currently in-flight
+const _remoteArtFailed   = new Set();   // keys we already tried and got nothing
+
+async function fetchRemoteArtForAlbum(artist, albumName){
+  // Build a stable cache key
+  const cacheKey = (artist||"").toLowerCase().trim() + "|" + (albumName||"").toLowerCase().trim();
+  if(_remoteArtFetching.has(cacheKey) || _remoteArtFailed.has(cacheKey)) return null;
+  _remoteArtFetching.add(cacheKey);
+
+  // Compose query: prefer "artist album" but fall back to album-only for
+  // compilations / "Unknown Artist" tracks.
+  const isUnknown = !artist || artist === "Unknown Artist" || artist === "Local Files";
+  const query = isUnknown ? albumName : (artist + " " + albumName);
+  const url = "https://itunes.apple.com/search?term="
+    + encodeURIComponent(query)
+    + "&entity=album&limit=5&country=us";
+
+  try {
+    const resp = await fetch(url);
+    if(!resp.ok) throw new Error("http " + resp.status);
+    const data = await resp.json();
+    const results = data.results || [];
+
+    // Pick the best match: prefer an exact album name match (case-insensitive),
+    // then fall back to the top result.
+    const norm = s => (s||"").toLowerCase().replace(/[^a-z0-9]/g,"");
+    const targetAlbum = norm(albumName);
+    const targetArtist = norm(artist);
+
+    let best = null;
+    for(const r of results){
+      const ra = norm(r.collectionName);
+      const rart = norm(r.artistName);
+      if(ra === targetAlbum){
+        // Exact album match — prefer one whose artist also matches
+        if(!best || norm(best.artistName) !== targetArtist && rart === targetArtist){
+          best = r;
+        }
+      }
+    }
+    if(!best && results.length) best = results[0];
+
+    if(best && best.artworkUrl100){
+      // Upscale: replace the size suffix to get 600×600
+      const artUrl = best.artworkUrl100.replace(/\/\d+x\d+bb\.jpg$/, "/600x600bb.jpg");
+      _remoteArtFetching.delete(cacheKey);
+      return artUrl;
+    }
+  } catch(e) { /* network error — silently skip */ }
+
+  _remoteArtFetching.delete(cacheKey);
+  _remoteArtFailed.add(cacheKey);
+  return null;
+}
+
+/* ============================================================
+   AUDIO FINGERPRINT IDENTIFICATION  — AcoustID + MusicBrainz + Cover Art Archive
+   When a track's local tags are wrong/missing (the case iTunes Search can't
+   help with), we fingerprint the audio on-device and ask AcoustID which
+   recording it is. That gives us the correct artist/title/album plus a
+   MusicBrainz release ID we can hit the Cover Art Archive with for real art.
+   No audio is uploaded — only the short Chromaprint hash leaves the device.
+   ============================================================ */
+
+// Tracks already being identified (by key) so re-renders don't double-run.
+const _identifying = new Set();
+const _identifiedDone = new Set();   // keys that resolved (success or confirmed-fail)
+let _lastIdentifyError = null;       // most recent failure, surfaced in the toast
+
+// Bump when the fingerprint algorithm changes, so cached values computed by an
+// older (broken) build get thrown away instead of being replayed forever.
+const FP_VERSION = 2;
+
+// Compute (and cache on the track) the Chromaprint base64 fingerprint.
+// Only the first 120 s are fingerprinted — that's fpcalc's default, and
+// AcoustID's index is built from fingerprints of exactly that shape.
+const FP_MAX_SECONDS = 120;
+async function computeFingerprint(track){
+  if(track.fingerprint && track.fpVersion === FP_VERSION && validDuration(track.duration)){
+    return track.fingerprint;
+  }
+  const { samples, sampleRate, duration } = await decodeMono(track);
+  // We just decoded the whole file, so take the duration from the decoder while
+  // we have it. AcoustID needs the FULL track length even though we only
+  // fingerprint the first FP_MAX_SECONDS.
+  if(!validDuration(track.duration) && validDuration(duration)) track.duration = duration;
+  if(track.fingerprint && track.fpVersion === FP_VERSION) return track.fingerprint;
+  const maxLen = Math.floor(FP_MAX_SECONDS * sampleRate);
+  const slice = samples.length > maxLen ? samples.subarray(0, maxLen) : samples;
+  const fp = window.Chromaprint.fingerprint(slice, sampleRate);
+  track.fingerprint = fp;
+  track.fpVersion = FP_VERSION;
+  return fp;
+}
+
+// AcoustID's `meta` flags are not additive the way they look:
+//   releaseids   collapses releases to bare {id} — no title, no date
+//   releasegroups + releases  nests releases INSIDE each release group, and
+//                             drops the top-level recording.releases array
+// So asking for "releases+releaseids" (what this used to do) yielded release
+// objects with nothing but an id, which is why the album never updated.
+// This combination gives the richest tree: recording -> releasegroups[] -> releases[].
+const ACOUSTID_META = "recordings+releasegroups+releases+compress";
+
+// MusicBrainz credits artists as a list with joinphrases ("A feat. B").
+function creditArtists(artists){
+  if(!artists || !artists.length) return "";
+  return artists.map((a,i)=>
+    (a.name||"") + (i < artists.length-1 ? (a.joinphrase!==undefined ? a.joinphrase : ", ") : "")
+  ).join("").trim();
+}
+// Release `date` is {year, month, day}, not a string. Sortable integer, with
+// undated releases pushed to the back rather than to the front.
+function releaseDateKey(rel){
+  const d = rel && rel.date;
+  if(!d || !d.year) return Infinity;
+  return d.year*10000 + (d.month||0)*100 + (d.day||0);
+}
+// Prefer a proper studio album over a compilation/soundtrack/live reissue, so a
+// track lands in the album it was actually released on.
+function releaseGroupRank(g){
+  const secondary = (g.secondarytypes||[]).map(s=>String(s).toLowerCase());
+  let score = 0;
+  if(String(g.type||"").toLowerCase() === "album") score -= 4;
+  if(secondary.includes("compilation")) score += 3;
+  if(secondary.includes("soundtrack")) score += 2;
+  if(secondary.includes("live")) score += 2;
+  if(secondary.includes("remix")) score += 1;
+  return score;
+}
+
+// AcoustID lookup -> the raw winning recording plus ALL of its candidate release
+// groups, ranked. Kept separate from picking one, because a batch ("identify
+// this album") needs to see every track's candidates before it can choose a
+// release group that covers the whole album.
+async function acoustidLookup(fingerprint, duration){
+  const key = CONFIG.acoustidKey;
+  // AcoustID rejects the request outright if the duration is missing or absurd,
+  // so bail early with a message the caller can actually show the user.
+  if(!validDuration(duration)) throw new Error("could not determine track length");
+  const dur = Math.round(duration);
+  const url = "https://api.acoustid.org/v2/lookup?client=" + encodeURIComponent(key)
+    + "&duration=" + dur
+    + "&fingerprint=" + encodeURIComponent(fingerprint)
+    + "&meta=" + ACOUSTID_META;
+  const resp = await fetch(url);
+  // Errors come back as HTTP 400 with a JSON body — read it, don't just throw
+  // the status code away, or every failure looks identical (and invisible).
+  let data = null;
+  try{ data = await resp.json(); }catch(e){ /* non-JSON body */ }
+  if(data && data.status === "error" && data.error){
+    throw new Error("AcoustID: " + (data.error.message || "unknown error"));
+  }
+  if(!resp.ok) throw new Error("AcoustID HTTP " + resp.status);
+  if(!data || data.status !== "ok" || !data.results || !data.results.length) return null;
+  const results = data.results
+    .filter(r => r.score > 0.7 && r.recordings && r.recordings.length)
+    .sort((a,b)=> (b.score||0) - (a.score||0));
+  const res = results[0];
+  if(!res) return null;
+  // Several recordings can share a fingerprint (different masters/edits).
+  // Pick the one whose length is closest to this file.
+  const rec = res.recordings.slice().sort((a,b)=>
+    Math.abs((a.duration||0) - duration) - Math.abs((b.duration||0) - duration)
+  )[0];
+
+  // Rank first (studio album over compilation/soundtrack/live), then break ties
+  // on the earliest release — so a track lands on the album it originally came
+  // out on rather than a later reissue or a hits package.
+  const groupDate = g => Math.min.apply(null,
+    ((g.releases||[]).map(releaseDateKey).concat([Infinity])));
+  const groups = (rec.releasegroups || []).slice().sort((a,b)=>
+    (releaseGroupRank(a) - releaseGroupRank(b)) || (groupDate(a) - groupDate(b))
+  );
+  return { rec, groups, score: res.score };
+}
+
+// Turn a lookup into the match we actually apply. `preferGroupId` lets a batch
+// override the per-track ranking with a release group chosen across the album.
+function matchFromLookup(lk, preferGroupId){
+  if(!lk) return null;
+  const { rec, groups } = lk;
+  // Put the preferred group first when this recording is actually on it, so it
+  // wins for the album name AND is tried first for cover art.
+  const ordered = preferGroupId && groups.some(g=>g.id===preferGroupId)
+    ? groups.slice().sort((a,b)=> (a.id===preferGroupId?0:1) - (b.id===preferGroupId?0:1))
+    : groups;
+  const group = ordered[0] || null;
+  // Releases nest under the group with this meta combination; tolerate the
+  // flat shape too in case the meta flags ever change.
+  const releases = ((group && group.releases) || rec.releases || [])
+    .slice().sort((a,b)=> releaseDateKey(a) - releaseDateKey(b));
+  const rel = releases[0] || null;
+
+  const artist = creditArtists(rec.artists)
+    || creditArtists(rel && rel.artists)
+    || creditArtists(group && group.artists) || "";
+  // The release-group title is the canonical album name; a specific release
+  // title can carry edition noise ("... (Deluxe Edition, Disc 2)").
+  const album = (group && group.title) || (rel && rel.title) || "";
+  // The release group's own credit — "Various Artists" for a real compilation,
+  // the band's name for a studio album. This is what keeps two same-named
+  // albums by different artists apart in the library.
+  const albumArtist = creditArtists(group && group.artists)
+    || creditArtists(rel && rel.artists) || artist;
+  return {
+    title: rec.title || "",
+    artist,
+    album,
+    albumArtist,
+    // Cover art candidates, best-first. One arbitrary release is a coin flip —
+    // most releases in a group have no art of their own.
+    releaseIds: releases.map(r=>r.id).filter(Boolean),
+    releaseGroupIds: ordered.map(g=>g.id).filter(Boolean),
+    recordingId: rec.id || null,
+    groupId: group ? group.id : null,
+    score: lk.score
+  };
+}
+
+// Single-track convenience wrapper (also what the right-click action uses).
+async function lookupAcoustid(fingerprint, duration, preferGroupId){
+  return matchFromLookup(await acoustidLookup(fingerprint, duration), preferGroupId);
+}
+
+// Cover Art Archive: find a front cover for a match.
+// Most individual releases in a group have no art of their own, so try the
+// release GROUP first (CAA serves the group's representative cover), then a
+// bounded number of individual releases. Trying a single arbitrary release —
+// which is what this did before — misses most of the time.
+const CAA_MAX_RELEASE_TRIES = 4;
+async function fetchCoverArt(releaseIds, releaseGroupIds){
+  const candidates = [];
+  for(const id of (releaseGroupIds||[]).slice(0, 2)) candidates.push(["release-group", id]);
+  for(const id of (releaseIds||[]).slice(0, CAA_MAX_RELEASE_TRIES)) candidates.push(["release", id]);
+  for(const [kind, id] of candidates){
+    if(!id) continue;
+    const url = "https://coverartarchive.org/" + kind + "/" + id + "/front-500";
+    try{
+      // CAA 307s to archive.org; both hops send Access-Control-Allow-Origin: *,
+      // so a plain fetch follows through and a 404 just means "no art here".
+      const resp = await fetch(url);
+      if(resp.ok && (resp.headers.get("content-type")||"").startsWith("image/")) return url;
+    }catch(e){ /* network hiccup — try the next candidate */ }
+  }
+  return null;
+}
+
+/* ---- Placeholder / junk tag detection ----
+   Anything that isn't real metadata, so identify knows it's free to replace it.
+   Beyond the obvious "Unknown Album" cases, ripped and scene-released MP3s
+   routinely stuff an advertisement into every tag field — album names like
+   "Http://www.TrueMp3s.com" are extremely common and used to read as
+   legitimate metadata, so a correct AcoustID match would be thrown away. */
+const JUNK_TAGS = new Set([
+  "", "unknown", "unknown album", "unknown artist", "unknown title", "untitled",
+  "no title", "no artist", "no album", "no name", "unnamed", "none", "(none)",
+  "[none]", "n/a", "n\\a", "na", "null", "nil", "0", "00", "000",
+  "-", "--", "---", "?", "??", "...", ".", "..", "_", "__", "*", "**",
+  "local files", "various", "various artists", "va", "compilation",
+  "track", "audio track", "my music", "music", "default",
+  "misc", "miscellaneous", "unsorted", "new album", "album", "sound", "sounds"
+]);
+// Spam TLDs seen in tag advertisements. Deliberately conservative: a legitimate
+// title is very unlikely to contain "<word>.com".
+const JUNK_URL_RE = /(https?:\/\/|\bwww\.|[a-z0-9][a-z0-9-]*\.(com|net|org|info|biz|ru|cc|tv|us|ws)\b)/;
+const JUNK_CREDIT_RE = /\b(ripped|encoded|tagged|created|converted|shared)\s+by\b|exact audio copy|\bcdrip\b|\bkbps\b|\bmp3\s*(vault|world|crew)\b/;
+const JUNK_TRACKNO_RE = /^(audio\s*)?tracks?\s*[-_.]?\s*\d*$/;
+
+// Shared rules. Deliberately no "too short" or "punctuation only" rule: "X",
+// "3", "!!!", "()" and "112" are all real album or artist names. The specific
+// punctuation placeholders that do show up in tags are listed above instead.
+// `numericIsJunk` is titles-only — a bare number is a meaningless track title,
+// but plenty of real albums and bands are named one ("21", "1989", "311").
+function looksLikeJunkTag(v, numericIsJunk){
+  if(v === null || v === undefined) return true;
+  const n = String(v).trim().toLowerCase();
+  if(!n) return true;
+  if(JUNK_TAGS.has(n)) return true;
+  if(JUNK_URL_RE.test(n)) return true;
+  if(JUNK_CREDIT_RE.test(n)) return true;
+  if(JUNK_TRACKNO_RE.test(n)) return true;
+  if(numericIsJunk && /^\d{1,3}$/.test(n)) return true;
+  return false;
+}
+function isUnknownAlbum(a){ return looksLikeJunkTag(a, false); }
+function isUnknownArtist(a){ return looksLikeJunkTag(a, false); }
+// An advertisement in ANY field means the whole tag set came from a tagger that
+// was rewriting metadata for its own purposes, so none of it is trustworthy —
+// not even fields that look plausible on their own (a title truncated to
+// "Lower Your Eyelids" reads fine but is still wrong).
+function hasSpamTag(track){
+  return [track.title, track.artist, track.album].some(v => {
+    if(!v) return false;
+    const n = String(v).trim().toLowerCase();
+    return JUNK_URL_RE.test(n) || JUNK_CREDIT_RE.test(n);
+  });
+}
+// A title is also a placeholder when it's just the filename we fell back to.
+function isUnknownTitle(t, fileName){
+  if(looksLikeJunkTag(t, true)) return true;
+  if(!fileName) return false;
+  const a = String(t).trim().toLowerCase();
+  return a === baseName(fileName).trim().toLowerCase();
+}
+
+// Identify one track: fingerprint -> AcoustID -> MusicBrainz -> Cover Art.
+// `opts.force` is set by the right-click "Identify track (by sound)" action:
+// an explicit request should run even when the auto-identify toggle is off and
+// even if the track was identified before.
+async function identifyTrack(track, opts){
+  const force = !!(opts && opts.force);
+  if(!CONFIG.hasKey) throw new Error("no AcoustID API key — add one in Settings");
+  if(!force && !CONFIG.identifyEnabled) return false;
+  if(!force && track.identified) return false;
+  // Spotify-imported tracks have no local audio to fingerprint.
+  if(track.remote || !track.file){
+    if(force) throw new Error("no local audio file to fingerprint");
+    return false;
+  }
+  if(_identifying.has(track.key)) return false;
+  _identifying.add(track.key);
+  let errored = false;
+  try{
+    const durBefore = track.duration;
+    const fp = await computeFingerprint(track);
+    if(!fp) throw new Error("could not fingerprint this file (too short or undecodable)");
+    // computeFingerprint recovers the duration from the decoder when the
+    // <audio> probe couldn't. Keep it even if the lookup below fails.
+    if(track.duration !== durBefore){ persistTrack(track); scheduleRender(); }
+    // A batch pre-fetches the lookup so it can choose an album across all the
+    // tracks; reuse it rather than spending a second AcoustID request.
+    const lk = (opts && opts.lookup !== undefined)
+      ? opts.lookup
+      : await acoustidLookup(fp, track.duration);
+    const match = matchFromLookup(lk, opts && opts.preferGroupId);
+    if(!match || !match.title){
+      _identifiedDone.add(track.key);
+      return false;
+    }
+    track.fingerprint = fp;
+    track.acoustid = match.recordingId;
+    track.identified = true;
+    // Decide what looked like a placeholder BEFORE touching anything — the art
+    // rule below used to read track.album after the line that overwrote it, so
+    // it could never see "this track came from an Unknown album".
+    const spamTagged = hasSpamTag(track);
+    const hadPlaceholderTitle = spamTagged || isUnknownTitle(track.title, track.name);
+    const hadPlaceholderArtist = spamTagged || isUnknownArtist(track.artist);
+    const hadPlaceholderAlbum = spamTagged || isUnknownAlbum(track.album);
+
+    // Only replace the fields that actually looked wrong, rather than rewriting
+    // all three whenever any one of them did. An explicit right-click identify
+    // overrides that: no heuristic catches every flavour of junk tag, so when
+    // the user asks for this track specifically, the match wins outright.
+    if(force || !track.manualMeta){
+      if(match.title && (force || hadPlaceholderTitle)) track.title = match.title;
+      if(match.artist && (force || hadPlaceholderArtist)) track.artist = match.artist;
+      if(match.album && (force || hadPlaceholderAlbum)){
+        track.album = match.album;                      // <- joins the new album
+        // Album artist travels with the album, so the track groups under the
+        // right one when another artist has an album of the same name.
+        track.albumArtist = match.albumArtist || match.artist || "";
+      }
+    }
+    // Grab Cover Art Archive art when the track has none, or when its current
+    // art was guessed from a placeholder album and is probably wrong.
+    const haveArtTarget = (match.releaseIds && match.releaseIds.length) ||
+                          (match.releaseGroupIds && match.releaseGroupIds.length);
+    if((force || !track.picture || hadPlaceholderAlbum) && haveArtTarget){
+      const art = await fetchCoverArt(match.releaseIds, match.releaseGroupIds);
+      if(art){ track.remoteArtUrl = art; track.picture = art; }
+    }
+    persistTrack(track);
+    scheduleRender();
+    return true;
+  }catch(e){
+    // A silent `return false` here is what made this feature look like a no-op:
+    // every failure (bad key, rejected fingerprint, network drop) vanished.
+    console.warn("identify failed for", track.name, e);
+    errored = true;
+    _lastIdentifyError = (e && e.message) ? e.message : String(e);
+    if(force) throw e;                // manual request -> caller surfaces it
+    return false;
+  }finally{
+    _identifying.delete(track.key);
+    // Only mark it settled when the lookup actually completed. Errors are
+    // transient often enough that permanently blacklisting the track is wrong.
+    if(!errored) _identifiedDone.add(track.key);
+  }
+}
+
+// Given every track's candidate release groups, find the one release group that
+// the most tracks share. Identifying an album track-by-track scatters it: each
+// track independently prefers its own artist album, so a compilation explodes
+// into one album per guest artist. Holding the set together matters more than
+// each track's individually-best album, so coverage wins outright here and the
+// usual studio-album-over-compilation ranking only breaks ties.
+function pickCommonReleaseGroup(lookupList){
+  const found = lookupList.filter(Boolean);
+  if(found.length < 2) return null;              // nothing to hold together
+  const count = new Map(), meta = new Map();
+  for(const lk of found){
+    // Count each group once per track, even if it appears twice in the payload.
+    for(const id of new Set((lk.groups||[]).map(g=>g.id).filter(Boolean))){
+      count.set(id, (count.get(id)||0) + 1);
+      if(!meta.has(id)) meta.set(id, (lk.groups||[]).find(g=>g.id===id));
+    }
+  }
+  let best = null, bestCount = 0;
+  for(const [id, n] of count){
+    if(n < 2) continue;                          // shared by nothing
+    const g = meta.get(id);
+    if(n > bestCount){ best = id; bestCount = n; }
+    else if(n === bestCount && best){
+      const bg = meta.get(best);
+      // Same coverage -> fall back to the normal preference (studio album first).
+      if(releaseGroupRank(g) < releaseGroupRank(bg)) best = id;
+    }
+  }
+  return best;
+}
+
+// Shared batch runner. Used by the automatic pass, by "Identify album" and by
+// the multi-select action, so all three get the same pacing, progress, error
+// reporting and album-follow behaviour.
+// opts.force  -> explicit user request: apply the match even over tags that
+//                don't look like placeholders (see identifyTrack).
+async function runIdentifyBatch(tracks, opts){
+  opts = opts || {};
+  // Remote (Spotify) entries have no local audio; skip anything already running.
+  const todo = tracks.filter(t => !t.remote && t.file && !_identifying.has(t.key));
+  if(!todo.length){
+    updateIdStatus("hidden");
+    if(opts.announce) toast("Nothing here can be identified by sound");
+    return { ok:0, total:0 };
+  }
+  toast("Identifying " + todo.length + " track" + (todo.length>1?"s":"") + " by sound…");
+  updateIdStatus("busy", 0, 0, todo.length);
+  _lastIdentifyError = null;
+  const CONCURRENCY = 3;
+  let i = 0, done = 0, ok = 0;
+  const moves = [];      // album renames, so the open view can follow them
+
+  // Phase 1 (batches only): fetch every track's candidates first, so phase 2 can
+  // apply ONE release group across the whole set instead of letting each track
+  // pick its own and scattering the album. One request per track either way —
+  // the result is cached and handed to identifyTrack.
+  const lookups = new Map();     // track.key -> lookup (or null for "no match")
+  if(opts.consensus){
+    const pre = async () => {
+      while(i < todo.length){
+        const t = todo[i++];
+        try{
+          const fp = await computeFingerprint(t);
+          if(fp) lookups.set(t.key, await acoustidLookup(fp, t.duration));
+        }catch(e){ _lastIdentifyError = (e && e.message) || String(e); }
+        updateIdStatus("busy", 0, ++done, todo.length, "Matching");
+        await new Promise(res => setTimeout(res, 120));
+      }
+    };
+    await Promise.all(Array.from({length: CONCURRENCY}, pre));
+    i = 0; done = 0;          // phase 2 counts the same tracks again, not more work
+  }
+  const preferGroupId = opts.consensus ? pickCommonReleaseGroup([...lookups.values()]) : null;
+
+  const worker = async () => {
+    while(i < todo.length){
+      const t = todo[i++];
+      const albumBefore = albumKeyOf(t);
+      let r = false;
+      const extra = { force: !!opts.force };
+      if(opts.consensus){
+        extra.lookup = lookups.has(t.key) ? lookups.get(t.key) : null;
+        extra.preferGroupId = preferGroupId;
+      }
+      try{ r = await identifyTrack(t, extra); }
+      catch(e){ _lastIdentifyError = (e && e.message) || String(e); }
+      if(r){
+        ok++;
+        const albumAfter = albumKeyOf(t);
+        if(albumAfter !== albumBefore) moves.push([albumBefore, albumAfter]);
+      }
+      updateIdStatus("busy", ok, ++done, todo.length);
+      // Phase 2 spends no AcoustID requests when consensus pre-fetched them,
+      // so only pace when we're actually hitting the API.
+      if(!opts.consensus) await new Promise(res => setTimeout(res, 120));
+    }
+  };
+  await Promise.all(Array.from({length: CONCURRENCY}, worker));
+  if(ok) toast("Identified " + ok + " of " + todo.length + " track" + (todo.length>1?"s":""));
+  else if(_lastIdentifyError) toast("Identify failed — " + _lastIdentifyError);
+  else toast("No AcoustID matches for " + todo.length + " track" + (todo.length>1?"s":""));
+  // Keep the pill visible showing the running total so it's obvious it worked.
+  updateIdStatus("done", ok);
+  // At most one of these can match the open view; the rest are no-ops.
+  for(const [from, to] of moves){ if(followAlbumMove(from, to)){ schedulePlaybackSave(); break; } }
+  scheduleRender();
+  return { ok, total: todo.length };
+}
+
+// Identify every track still lacking good metadata or art, after the tag scan
+// + iTunes art pass. Bounded concurrency, polite pacing.
+async function identifyMissing(){
+  if(!CONFIG.hasKey || !CONFIG.identifyEnabled){ updateIdStatus("hidden"); return; }
+  const todo = state.tracks.filter(t =>
+    !t.identified && !t.remote && t.file &&
+    !_identifying.has(t.key) && !_identifiedDone.has(t.key) &&
+    // (re)identify anything still missing art, or whose tags look like
+    // placeholders — including junk/advertisement tags, which previously read
+    // as real metadata and so were skipped entirely when art was present.
+    (!t.picture || isUnknownArtist(t.artist) || isUnknownAlbum(t.album) ||
+     isUnknownTitle(t.title, t.name))
+  );
+  if(!todo.length){ updateIdStatus("hidden"); return; }
+  await runIdentifyBatch(todo);
+}
+
+// Explicit "identify these" for a whole album / playlist / selection. Unlike the
+// automatic pass this forces the match through, so it can overwrite tags that
+// merely *look* fine — confirm first when that would actually throw work away.
+async function identifyTracksExplicit(tracks, label){
+  if(!CONFIG.hasKey){ openSettings(); toast("Add an AcoustID key in Settings first"); return; }
+  const usable = tracks.filter(t => !t.remote && t.file);
+  if(!usable.length){ toast("Nothing here can be identified by sound"); return; }
+  const atRisk = usable.filter(t => t.manualMeta || t.identified).length;
+  if(atRisk){
+    const ok = await confirmDialog({
+      title: "Re-identify " + label + "?",
+      message: `This looks up all <b>${usable.length}</b> track${usable.length===1?"":"s"} by sound and `
+        + `overwrites their title, artist and album with what AcoustID returns.<br><br>`
+        + `<b>${atRisk}</b> of them ${atRisk===1?"has":"have"} already been identified or edited by hand — `
+        + `those tags will be replaced too.`,
+      okLabel: "Identify " + usable.length,
+      danger: false
+    });
+    if(!ok) return;
+  }
+  await runIdentifyBatch(usable, { force:true, announce:true, consensus:true });
+}
+
+// Called after the tag scan finishes (or on restore). Finds every track
+// without embedded art, groups by album, fetches once per album, then
+// applies the URL to all matching tracks and triggers a re-render.
+async function fetchMissingArt(){
+  // Group art-less tracks by album key
+  const groups = new Map();  // "artist|album" -> [track, ...]
+  for(const t of state.tracks){
+    if(t.picture) continue;                         // already has embedded art
+    if(t.remoteArtUrl) continue;                    // already fetched
+    const alb = t.album || "Local Files";
+    if(alb === "Local Files" && (!t.artist || t.artist === "Unknown Artist")) continue;
+    const k = (t.artist||"").toLowerCase().trim() + "|" + alb.toLowerCase().trim();
+    if(_remoteArtFailed.has(k)) continue;
+    if(!groups.has(k)) groups.set(k, { artist: t.artist, album: alb, tracks: [] });
+    groups.get(k).tracks.push(t);
+  }
+  if(!groups.size) return;
+
+  // Fetch albums in parallel (capped at 4 concurrent to be polite)
+  const CONCURRENCY = 4;
+  const queue = [...groups.values()];
+  let qi = 0;
+  const worker = async () => {
+    while(qi < queue.length){
+      const { artist, album, tracks } = queue[qi++];
+      const artUrl = await fetchRemoteArtForAlbum(artist, album);
+      if(artUrl){
+        for(const t of tracks){
+          t.remoteArtUrl = artUrl;
+          t.picture = artUrl;          // use directly as <img src>
+          persistTrack(t);             // save the URL so it survives reloads
+        }
+        scheduleRender();
+      }
+      // Small delay between requests — be a good citizen
+      await new Promise(r => setTimeout(r, 80));
+    }
+  };
+  await Promise.all(Array.from({length: CONCURRENCY}, worker));
+}
+
+/* ============================================================
+   LIBRARY (grouped by album) + RENDER
+   ============================================================ */
+/* ---- Album identity ----
+   An album used to be identified by its name alone, so two different artists
+   who both released a "Greatest Hits" (or "Live", or "Demos") were merged into
+   one album containing both their tracks. Identity is now name + album artist.
+   Genuine various-artists compilations still group as one album, because their
+   credit IS "Various Artists". */
+function isVariousArtistsName(v){
+  if(!v) return false;
+  const n = String(v).trim().toLowerCase();
+  return n==="various artists" || n==="various" || n==="va" || n==="v/a" ||
+         n==="compilation" || n==="soundtrack" || n==="original soundtrack" || n==="ost";
+}
+// Reduce a credit to its lead artist so "M83", "M83 feat. Susanne Sundfør" and
+// "M83 & Friends" all land in the same album instead of three. The result is an
+// internal key, never displayed, so it only has to be consistent.
+function primaryArtistKey(v){
+  if(!v) return "";
+  return String(v)
+    .split(/\s+(?:feat\.?|ft\.?|featuring|with|vs\.?)\s+|[,;&\/]|\s+\+\s+/i)[0]
+    .trim().toLowerCase();
+}
+function albumNameOf(t){ return t.album || "Local Files"; }
+// JSON rather than a delimiter character: the key round-trips through HTML
+// data- attributes on the albums page, and album names may contain anything
+// (a raw NUL here is silently rewritten to U+FFFD by the HTML parser).
+function albumKeyOf(t){
+  const name = albumNameOf(t);
+  // "Local Files"/"Unknown Album" are catch-all buckets, not real albums —
+  // splitting those per artist would shatter an unidentified library.
+  if(isUnknownAlbum(name)) return JSON.stringify([name.trim().toLowerCase(), ""]);
+  const credit = t.albumArtist || t.artist || "";
+  const who = isVariousArtistsName(credit) ? "" : primaryArtistKey(credit);
+  return JSON.stringify([name.trim().toLowerCase(), who]);
+}
+
+function albums(){
+  const map=new Map();
+  for(const t of state.tracks){
+    const key=albumKeyOf(t);
+    if(!map.has(key)) map.set(key,{key,name:albumNameOf(t),tracks:[],picture:null,artist:t.albumArtist||t.artist});
+    const a=map.get(key); a.tracks.push(t);
+    if(!a.picture && t.picture) a.picture=t.picture;
+  }
+  return [...map.values()];
+}
+function albumByKey(key){ return albums().find(a=>a.key===key) || null; }
+
+// Other albums that share this one's display name (case-insensitive). Albums are
+// deliberately keyed by name + artist, so an album name held by two artists is
+// two albums — usually right, but wrong for a compilation whose tracks carry no
+// album-artist tag, where every guest artist becomes its own one-track album.
+function albumsSharingName(album){
+  if(!album) return [];
+  const n = album.name.trim().toLowerCase();
+  return albums().filter(a => a.key !== album.key && a.name.trim().toLowerCase() === n);
+}
+
+// Fold same-named albums into one by giving every track a common album artist,
+// which is what albumKeyOf groups on. Library-only: no files or tags on disk
+// are touched, and each track keeps its own performing artist.
+async function mergeAlbumsNamed(album){
+  const others = albumsSharingName(album);
+  if(!others.length){ toast("No other album shares that name"); return false; }
+  const all = [album, ...others];
+  const tracks = all.flatMap(a => a.tracks);
+  // If every side already reduces to the same lead artist they'd have merged on
+  // their own, so in practice this is the multi-artist case -> Various Artists.
+  const credits = new Set(all.map(a => primaryArtistKey(a.artist || "")).filter(Boolean));
+  const mergedCredit = credits.size === 1
+    ? ((all.find(a => a.artist) || {}).artist || "Various Artists")
+    : "Various Artists";
+  // Cap the listing: the dialog body scrolls, but a hundred lines of it is
+  // noise rather than information.
+  const MAX_LISTED = 10;
+  let listed = all.slice(0, MAX_LISTED).map(a =>
+    `• <b>${escapeHtml(a.artist || "Unknown Artist")}</b> — ${a.tracks.length} song${a.tracks.length===1?"":"s"}`
+  ).join("<br>");
+  if(all.length > MAX_LISTED) listed += `<br>…and ${all.length - MAX_LISTED} more`;
+  const ok = await confirmDialog({
+    title: "Merge albums?",
+    message: `Combine <b>${all.length}</b> albums named “${escapeHtml(album.name)}” into one `
+      + `of <b>${tracks.length}</b> songs:<br><br>${listed}<br><br>`
+      + `They'll be credited to <b>${escapeHtml(mergedCredit)}</b>. Each track keeps its own artist, `
+      + `and nothing on disk is changed.`,
+    okLabel: "Merge " + all.length + " albums",
+    danger: false
+  });
+  if(!ok) return false;
+  for(const t of tracks){
+    t.album = album.name;              // one spelling wins, in case they differed by case
+    t.albumArtist = mergedCredit;
+    persistTrack(t);
+  }
+  // The merged album has a new key, so move the view onto it.
+  const newKey = albumKeyOf(tracks[0]);
+  if(currentAlbum.startsWith("alb:") && all.some(a => "alb:"+a.key === currentAlbum)){
+    currentAlbum = "alb:" + newKey;
+  }
+  _chromeKey=null; _libKey=null; _albumsKey=null;
+  rebuildLibrary(); render(); schedulePlaybackSave();
+  toast(`Merged ${all.length} albums into “${album.name}”`);
+  return true;
+}
+
+// The one album ordering, shared by the sidebar and the Albums page so the two
+// can't drift apart: by name, case-insensitive, and numeric so "Vol. 2" sorts
+// before "Vol. 10" rather than after it.
+function byAlbumName(a, b){
+  return a.name.localeCompare(b.name, undefined, { numeric:true, sensitivity:"base" });
+}
+// Sidebar order: the catch-all buckets ("Local Files", "Unknown Album") stay
+// pinned at the top next to All Songs — they're holding pens, not albums, and
+// burying them alphabetically makes unsorted music hard to find. Real albums
+// follow in the same order the Albums page uses.
+function albumsForSidebar(){
+  const al = albums();
+  const bucket = al.filter(a => isUnknownAlbum(a.name)).sort(byAlbumName);
+  const real   = al.filter(a => !isUnknownAlbum(a.name)).sort(byAlbumName);
+  return bucket.concat(real);
+}
+/* ============================================================
+   FAVORITES ("Liked Songs")
+   A flag on the track itself rather than a playlist of keys: a favorite is a
+   property of the song, so it rides along with every rename, re-identify and
+   album merge for free, and deleting a track can't leave a dangling entry.
+   ============================================================ */
+const FAV_VIEW = "__fav__";
+
+function favoriteTracks(){
+  // Newest first — the same order Spotify's Liked Songs uses. Tracks favorited
+  // before favoritedAt existed sort last but keep a stable order by title.
+  return state.tracks
+    .filter(t => t.favorite)
+    .sort((a,b) => (b.favoritedAt||0) - (a.favoritedAt||0) ||
+                   (a.title||"").localeCompare(b.title||""));
+}
+function favoriteCount(){ let n=0; for(const t of state.tracks) if(t.favorite) n++; return n; }
+
+// Set (or clear) the favorite flag and refresh everything that shows it: the
+// row heart, the now-bar heart, the sidebar count, and the Liked Songs view.
+function setFavorite(t, on){
+  if(!t || !!t.favorite === !!on) return;
+  t.favorite = !!on;
+  t.favoritedAt = on ? Date.now() : 0;
+  persistTrack(t);
+  _libKey = null;                 // sidebar count / cover changed
+  if(currentAlbum === FAV_VIEW) _chromeKey = null;   // the list itself changed
+  rebuildLibrary(); render(); updateNowFav();
+  toast(on ? "Added to Liked Songs" : "Removed from Liked Songs");
+}
+function toggleFavorite(id){
+  const t = trackById(id);
+  if(t) setFavorite(t, !t.favorite);
+}
+// Paint the now-playing bar's heart for whatever track is loaded.
+function updateNowFav(){
+  const b = $("npFav"); if(!b) return;
+  const t = state.currentId!=null ? trackById(state.currentId) : null;
+  b.hidden = !t;
+  if(!t) return;
+  const on = !!t.favorite;
+  b.classList.toggle("on", on);
+  b.textContent = on ? "♥" : "♡";
+  b.title = on ? "Remove from Liked Songs" : "Save to Liked Songs";
+}
+$("npFav").onclick = () => { if(state.currentId!=null) toggleFavorite(state.currentId); };
+
+let currentAlbum = "__all__";
+let _libKey = null;
+
+function rebuildLibrary(){
+  const wrap=$("playlists");
+  const al=albumsForSidebar();
+  if(!state.tracks.length && !state.playlists.length){
+    _libKey=null;
+    wrap.innerHTML='<div class="lib-empty">No music yet.<br>Click <b>＋</b> or “Add Music” to load local MP3 / OGG files from your computer.</div>';
+    return;
+  }
+  // Skip the DOM rebuild unless the album/playlist set / counts / active selection
+  // actually changed — avoids thrashing the sidebar on every scan frame.
+  const plKey = state.playlists.map(p=>p.id+":"+p.name+":"+p.trackKeys.length).join("|");
+  const favN = favoriteCount();
+  const libKey = currentAlbum+"#"+state.tracks.length+"#"+al.map(a=>a.key+":"+a.tracks.length+(a.picture?"*":"")).join("|")+"#PL#"+plKey+"#FAV#"+favN;
+  if(libKey===_libKey) return;
+  _libKey=libKey;
+  let html="";
+  // Playlists first (user-created)
+  if(state.playlists.length){
+    html+='<div class="secthead">Playlists</div>';
+    for(const p of state.playlists){
+      const pics=playlistTracks(p).find(t=>t.picture);
+      html+=plItem("pl:"+p.id, p.name, p.trackKeys.length+" songs · Playlist", "🎵", pics?pics.picture:null);
+    }
+  }
+  // Library
+  html+='<div class="secthead">Library</div>';
+  html+=plItem("__all__","All Songs", state.tracks.length+" songs", "♪", null);
+  // Liked Songs sits directly under All Songs and stays put even when empty, so
+  // there's somewhere obvious for a first favorite to land.
+  const favPic=(favoriteTracks().find(t=>t.picture)||{}).picture||null;
+  html+=plItem(FAV_VIEW,"Liked Songs", favN+" song"+(favN===1?"":"s")+" · Favorites", "♥", favPic);
+  for(const a of al){
+    // Show the artist rather than the literal word "Album": when two albums
+    // share a name it's the only thing distinguishing them in the sidebar.
+    const sub = isVariousArtistsName(a.artist) ? "Various Artists"
+              : (a.artist && !isUnknownArtist(a.artist) ? a.artist : "Album");
+    html+=plItem("alb:"+a.key, a.name, a.tracks.length+" songs · "+sub, "💿", a.picture);
+  }
+  wrap.innerHTML=html;
+  [...wrap.querySelectorAll(".pl")].forEach(el=>{
+    el.onclick=()=>{ currentAlbum=el.dataset.key; _chromeKey=null; rebuildLibrary(); render(); schedulePlaybackSave(); };
+    el.classList.toggle("active", el.dataset.key===currentAlbum);
+  });
+}
+function plItem(key,title,sub,icon,pic){
+  const art = pic?`<img src="${pic}">`:icon;
+  return `<div class="pl ${key===currentAlbum?'active':''}" data-key="${escapeHtml(key)}">
+    <div class="art">${art}</div>
+    <div class="meta"><div class="t">${escapeHtml(title)}</div><div class="s">${escapeHtml(sub)}</div></div>
+  </div>`;
+}
+
+function visibleTracks(){
+  let list = state.tracks;
+  if(currentAlbum===FAV_VIEW){
+    list = favoriteTracks();
+  } else if(currentAlbum.startsWith("alb:")){
+    const key=currentAlbum.slice(4);
+    list=list.filter(t=>albumKeyOf(t)===key);
+  } else if(currentAlbum.startsWith("pl:")){
+    const p=state.playlists.find(x=>x.id===currentAlbum.slice(3));
+    list = p ? playlistTracks(p) : [];
+  }
+  if(state.search){
+    const q=state.search.toLowerCase();
+    list=list.filter(t=>(t.title+" "+t.artist+" "+t.album).toLowerCase().includes(q));
+  }
+  return list;
+}
+
+// _chromeKey identifies the current view structure. While it's unchanged
+// (e.g. tags streaming in, or the user scrolling) we skip rebuilding the
+// page chrome and only repaint the handful of visible rows.
+let _chromeKey = null;
+let _selView = null;   // view signature; when it changes, multi-selection is cleared
+
+function render(){
+  const content=$("content");
+  if(!state.tracks.length){
+    _chromeKey=null;
+    if(!$("emptyState")){
+      content.innerHTML=`<div class="empty" id="emptyState">
+        <div class="big">🎧</div><h3>Your library is empty</h3>
+        <p>Drag &amp; drop <b>.mp3</b> or <b>.ogg</b> files here, or load a folder. Everything stays on your device.</p>
+        <div style="display:flex;gap:12px">
+          <button class="topbtn" id="addMusicBtn2">＋ Add Music</button>
+          <button class="topbtn ghost" id="addFolderBtn2">Add Folder</button>
+        </div></div>`;
+      $("addMusicBtn2").onclick=()=>$("fileInput").click();
+      $("addFolderBtn2").onclick=()=>$("folderInput").click();
+    }
+    return;
+  }
+  const list=visibleTracks();
+  state.view=list;
+
+  // Drop any multi-selection when the view itself changes (album/search/nav),
+  // but keep it across pure data refreshes (tags streaming in, a delete, etc).
+  const selView = currentAlbum+"||"+state.search;
+  if(selView!==_selView){
+    _selView=selView;
+    if(state.selected.size){ state.selected.clear(); _selAnchor=null; updateSelectionBar(); }
+  }
+
+  // hero
+  let heroTitle="All Songs", heroKind="Playlist", heroPic=null, heroSub, curPl=null;
+  let heroAlbum=null, mergeable=0;   // set for album views: the album + how many share its name
+  if(currentAlbum.startsWith("alb:")){
+    const a=albumByKey(currentAlbum.slice(4));
+    heroTitle=a?a.name:"Album"; heroKind="Album";
+    heroPic=a?a.picture:null;
+    heroSub=`<b>${escapeHtml(a?a.artist:'')}</b> · ${list.length} song${list.length===1?'':'s'}`;
+    heroAlbum=a;
+    mergeable=albumsSharingName(a).length;
+    if(mergeable) heroSub += `<span class="scanbadge">${mergeable+1} albums share this name</span>`;
+  } else if(currentAlbum.startsWith("pl:")){
+    curPl=state.playlists.find(x=>x.id===currentAlbum.slice(3));
+    heroTitle=curPl?curPl.name:"Playlist"; heroKind="Playlist";
+    heroPic=(list.find(t=>t.picture)||{}).picture||null;
+    heroSub=`${list.length} song${list.length===1?'':'s'}`;
+  } else if(currentAlbum===FAV_VIEW){
+    heroTitle="Liked Songs"; heroKind="Playlist";
+    heroPic=(list.find(t=>t.picture)||{}).picture||null;
+    heroSub=`${list.length} song${list.length===1?'':'s'} you've liked`;
+  } else {
+    heroPic=(state.tracks.find(t=>t.picture)||{}).picture||null;
+    heroSub=`${state.tracks.length} songs in your local library`;
+  }
+  if(scan.remaining>0) heroSub += `<span class="scanbadge">reading tags… ${scan.remaining} left</span>`;
+  const heroArt=heroPic?`<img src="${heroPic}">`
+    :(currentAlbum===FAV_VIEW?"♥":(heroKind==="Playlist"&&curPl?"🎵":"♪"));
+
+  // Only rebuild the page chrome when the view actually changes — NOT on every
+  // tag that streams in. This is the key to staying smooth during big imports.
+  // `mergeable` is in the key so the merge button appears/disappears when another
+  // same-named album shows up or goes away, without a full-view change.
+  const chromeKey = currentAlbum+"||"+state.search+"||"+list.length+"||"+mergeable;
+  if(chromeKey!==_chromeKey){
+    _chromeKey=chromeKey;
+    if(!list.length){
+      const msg = state.search
+        ? `No tracks match “${escapeHtml(state.search)}”.`
+        : (curPl ? `“${escapeHtml(curPl.name)}” is empty. Right-click any track and choose <b>Add to playlist</b>.`
+        : (currentAlbum===FAV_VIEW ? `No liked songs yet. Hover any track and click the <b>♡</b> to save it here.`
+        : "Nothing here yet."));
+      content.innerHTML=`
+        <div class="hero">
+          <div class="cover">${heroArt}</div>
+          <div class="info"><div class="kind">${heroKind}</div><h2>${escapeHtml(heroTitle)}</h2>
+          <div class="sub">${heroSub}</div></div>
+        </div>
+        ${curPl?`<div class="actions"><button class="iconbtn" id="delPl" title="Delete playlist" style="font-size:20px">🗑 Delete playlist</button></div>`:''}
+        <div class="lib-empty" style="padding:30px 10px">${msg}</div>`;
+      const dp=$("delPl"); if(dp) dp.onclick=()=>deletePlaylist(curPl.id);
+      return;
+    }
+    content.innerHTML=`
+      <div class="hero">
+        <div class="cover">${heroArt}</div>
+        <div class="info">
+          <div class="kind">${heroKind}</div>
+          <h2>${escapeHtml(heroTitle)}</h2>
+          <div class="sub" id="heroSub">${heroSub}</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="playall" id="playAll" title="Play">▶</button>
+        <button class="iconbtn" id="shufAll" title="Shuffle play">⤨</button>
+        ${CONFIG.hasKey && list.some(t=>!t.remote && t.file)
+          ? `<button class="iconbtn" id="idAll" title="Identify these ${list.length} tracks by sound" style="font-size:20px">🔎</button>` : ''}
+        ${mergeable
+          ? `<button class="iconbtn" id="mergeAlb" style="font-size:20px"
+               title="Merge the ${mergeable+1} albums named &quot;${escapeHtml(heroTitle)}&quot; into one">⧉</button>` : ''}
+        ${curPl?`<button class="iconbtn" id="delPl" title="Delete playlist" style="font-size:22px">🗑</button>`:''}
+      </div>
+      <div class="tracks">
+        <div class="thead">
+          <div>#</div><div>Title</div><div>Album</div><div>Type</div><div></div><div class="r">⏱</div>
+        </div>
+        <div class="vlist" id="vlist" style="height:${list.length*ROW_H}px"></div>
+      </div>`;
+    $("playAll").onclick = ()=>{
+      // If the loaded track belongs to THIS view (e.g. you're already playing
+      // this album), just toggle pause/play — same as the bottom bar.
+      if(state.currentId && list.some(t=>t.id===state.currentId)){
+        togglePlay(); return;
+      }
+      // Otherwise start this view/album from its FIRST track — not whatever
+      // was last playing from some other context.
+      if(list.length){ buildQueue(list.map(t=>t.id)); playAt(0); }
+    };
+    $("shufAll").onclick=()=>{ state.shuffle=true; updateToggles(); buildQueue(list.map(t=>t.id),true); playAt(0); };
+    const ia=$("idAll");
+    if(ia) ia.onclick=()=>{
+      // Snapshot the list: identifying rewrites albums, which changes the view.
+      const batch = state.view.slice();
+      identifyTracksExplicit(batch, heroKind.toLowerCase()==="album" ? "this album" : "these tracks");
+    };
+    const mg=$("mergeAlb");
+    if(mg) mg.onclick=()=>{ if(heroAlbum) mergeAlbumsNamed(heroAlbum); };
+    const dp=$("delPl"); if(dp) dp.onclick=()=>deletePlaylist(curPl.id);
+  } else {
+    // Same view, refreshed data: update only the live bits.
+    const hs=$("heroSub"); if(hs) hs.innerHTML=heroSub;
+    const vl=$("vlist"); if(vl) vl.style.height=(list.length*ROW_H)+"px";
+  }
+  paintRows();
+}
+
+// Render ONLY the rows visible in the viewport (+overscan). DOM node count
+// stays ~20 no matter how large the library is.
+function paintRows(){
+  const content=$("content"); const vl=$("vlist");
+  if(!vl) return;
+  const list=state.view;
+  const vlTop=vl.offsetTop;                          // vlist offset within content
+  const scrollTop=content.scrollTop;
+  const viewH=content.clientHeight;
+  const OVER=6;
+  let first=Math.floor((scrollTop - vlTop)/ROW_H) - OVER;
+  let last =Math.ceil((scrollTop - vlTop + viewH)/ROW_H) + OVER;
+  first=Math.max(0,first);
+  last =Math.min(list.length-1,last);
+
+  let html="";
+  for(let i=first;i<=last;i++){
+    const t=list[i];
+    const isCur = t.id === state.currentId;
+    const playing = state.playing && isCur;
+    const sel = state.selected.has(t.id);
+    const art=t.picture?`<img src="${t.picture}" loading="lazy">`:"♪";
+    const fav=!!t.favorite;
+    html+=`<div class="trow ${playing?'playing':''} ${isCur&&!playing?'current':''} ${sel?'selected':''}" data-id="${t.id}" style="top:${i*ROW_H}px">
+      <div class="idx">
+        <span class="num">${i+1}</span>
+        <span class="bars"><span></span><span></span><span></span></span>
+      </div>
+      <div class="cell">
+        <div class="tart">${art}</div>
+        <div class="tmeta">
+          <div class="title">${escapeHtml(t.title)}</div>
+          <div class="artist">${escapeHtml(t.artist)}</div>
+        </div>
+      </div>
+      <div class="col">${escapeHtml(t.album)}</div>
+      <div class="col" style="text-transform:uppercase;font-size:12px;color:var(--text-sub)">${escapeHtml(t.ext)}</div>
+      <button class="favbtn ${fav?'on':''}" data-fav="${t.id}" title="${fav?'Remove from Liked Songs':'Save to Liked Songs'}">${fav?"♥":"♡"}</button>
+      <div class="dur">${t.duration?fmtTime(t.duration):"--:--"}</div>
+    </div>`;
+  }
+  vl.innerHTML=html;
+}
+
+// Repaint visible rows on scroll (throttled to one paint per frame). Listener
+// is attached once to the persistent content element.
+let _scrollPending=false;
+$("content").addEventListener("scroll",()=>{
+  if(_scrollPending) return;
+  _scrollPending=true;
+  requestAnimationFrame(()=>{ _scrollPending=false; paintRows(); });
+});
+// Event delegation: one listener for the whole list instead of one per row.
+$("content").addEventListener("click",e=>{
+  // The heart is inside the row, so it has to claim the click before the row
+  // does — otherwise liking a song would also start playing it.
+  const heart=e.target.closest(".favbtn");
+  if(heart){ e.stopPropagation(); toggleFavorite(+heart.dataset.fav); return; }
+  const row=e.target.closest(".trow"); if(!row) return;
+  const id=+row.dataset.id;
+  // Ctrl/Cmd-click toggles one row; Shift-click selects a range — for bulk delete.
+  if(e.metaKey || e.ctrlKey){ toggleSelect(id); return; }
+  if(e.shiftKey){ e.preventDefault(); selectRange(id); return; }
+  // Plain click: drop any selection, then play.
+  if(state.selected.size) clearSelection();
+  buildQueue(state.view.map(t=>t.id));
+  const pos=state.queue.indexOf(id);
+  playAt(pos>=0?pos:0);
+});
+
+/* ---------- Multi-select ---------- */
+function toggleSelect(id){
+  if(state.selected.has(id)) state.selected.delete(id);
+  else state.selected.add(id);
+  _selAnchor=id;
+  afterSelectionChange();
+}
+function selectRange(toId){
+  const list=state.view;
+  const to=list.findIndex(t=>t.id===toId);
+  if(to<0) return;
+  let from = _selAnchor!=null ? list.findIndex(t=>t.id===_selAnchor) : -1;
+  if(from<0) from=to;
+  const [a,b]=from<=to?[from,to]:[to,from];
+  for(let i=a;i<=b;i++) state.selected.add(list[i].id);
+  afterSelectionChange();
+}
+function clearSelection(){
+  if(!state.selected.size){ updateSelectionBar(); return; }
+  state.selected.clear(); _selAnchor=null;
+  afterSelectionChange();
+}
+function afterSelectionChange(){
+  updateSelectionBar();
+  paintRows();     // repaint visible rows so .selected reflects the set
+}
+function updateSelectionBar(){
+  const n=state.selected.size;
+  const bar=$("selBar"); if(!bar) return;
+  bar.classList.toggle("show", n>0);
+  const c=$("selCount"); if(c) c.textContent=n+" selected";
+  const d=$("selDelete"); if(d) d.textContent="🗑 Delete "+n;
+  const idb=$("selIdentify");
+  if(idb){
+    idb.textContent="🔎 Identify "+n;
+    // Only meaningful with a key and at least one local file in the selection.
+    const usable = [...state.selected].map(trackById).filter(t=>t && !t.remote && t.file).length;
+    idb.style.display = (CONFIG.hasKey && usable) ? "" : "none";
+  }
+}
+// Right-click a track row -> context menu (Play next / Add to queue / playlists).
+$("content").addEventListener("contextmenu",e=>{
+  const row=e.target.closest(".trow"); if(!row) return;
+  e.preventDefault();
+  const id=+row.dataset.id;
+  const inPlaylist = currentAlbum.startsWith("pl:") ? currentAlbum.slice(3) : null;
+  openContextMenu(e.clientX, e.clientY, id, {inPlaylist});
+});
+
+/* ============================================================
+   PLAYBACK
+   ============================================================ */
+const _manualIds = new Set();   // queue ids the user explicitly enqueued (cosmetic labeling)
+
+function buildQueue(ids, forceShuffle){
+  state.queue = ids.slice();
+  _manualIds.clear();           // new context resets the manual block
+  if(forceShuffle || state.shuffle) shuffleArray(state.queue);
+}
+function shuffleArray(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} }
+
+function trackById(id){ return state.tracks.find(t=>t.id===id); }
+function trackByKey(key){ return state.tracks.find(t=>t.key===key); }
+
+// Insert a track to play immediately after the current one.
+function enqueueNext(id){
+  if(state.qpos<0 || !state.queue.length){ buildQueue([id]); playAt(0); return; }
+  state.queue.splice(state.qpos+1,0,id);
+  _manualIds.add(id);
+  renderQueue(); schedulePlaybackSave(); toast("Playing next");
+}
+// Append after the current manual block (preserves order of multiple adds).
+function enqueueLast(id){
+  if(state.qpos<0 || !state.queue.length){ buildQueue([id]); playAt(0); return; }
+  let at=state.qpos+1;
+  while(at<state.queue.length && _manualIds.has(state.queue[at])) at++;
+  state.queue.splice(at,0,id);
+  _manualIds.add(id);
+  renderQueue(); schedulePlaybackSave(); toast("Added to queue");
+}
+
+function playAt(pos){
+  if(pos<0||pos>=state.queue.length) return;
+  state.qpos=pos;
+  const t=trackById(state.queue[pos]);
+  if(!t) return;
+  _manualIds.delete(t.id);      // consumed — no longer "upcoming"
+  state.currentId=t.id;
+  audio.src=t.url;
+  audio.play().then(()=>{state.playing=true;updatePlayBtn();}).catch(()=>{});
+  updateNowPlaying(t);
+  focusCurrentTrack();          // switch album / All Songs so the track is on screen
+  render(); renderQueue(); schedulePlaybackSave();
+  scrollCurrentIntoView();      // and bring its row into view
+}
+
+// Ensure the currently-playing track is visible. If the active view (album /
+// playlist / search filter) doesn't contain it — e.g. shuffle jumped to another
+// album — switch to that track's album, or fall back to All Songs.
+function focusCurrentTrack(){
+  const t=trackById(state.currentId);
+  if(!t) return;
+  if(visibleTracks().some(x=>x.id===t.id)) return;   // already shown
+  if(state.search){ state.search=""; const s=$("search"); if(s) s.value=""; }
+  const key=albumKeyOf(t);
+  currentAlbum = albums().some(a=>a.key===key) ? "alb:"+key : "__all__";
+  _chromeKey=null;
+  rebuildLibrary();
+}
+
+// Identify can rename the album a track belongs to, which silently empties the
+// view you were looking at — the sidebar entry for the old name disappears and
+// you're left staring at an empty list. Follow the track to its new album, but
+// only when the old one is genuinely gone: if other tracks still live there,
+// you're looking at a populated album and yanking the view would be worse.
+// Returns true if the view moved.
+function followAlbumMove(fromKey, toKey){
+  if(!fromKey || !toKey || fromKey === toKey) return false;
+  if(currentAlbum !== "alb:" + fromKey) return false;         // not viewing it (or navigated away)
+  const al = albums();
+  const stillThere = al.find(a => a.key === fromKey);
+  if(stillThere && stillThere.tracks.length) return false;    // other tracks remain
+  currentAlbum = al.some(a => a.key === toKey) ? "alb:" + toKey : "__all__";
+  _chromeKey = null;
+  return true;
+}
+
+// Scroll the current track's row into view within the (virtualized) list.
+function scrollCurrentIntoView(behavior){
+  const content=$("content"), vl=$("vlist");
+  if(!content||!vl) return;
+  const idx=state.view.findIndex(t=>t.id===state.currentId);
+  if(idx<0) return;
+  const rowTop=vl.offsetTop + idx*ROW_H;
+  const rowBot=rowTop + ROW_H;
+  const viewTop=content.scrollTop, viewBot=viewTop + content.clientHeight;
+  if(rowTop<viewTop || rowBot>viewBot){
+    const target=rowTop - content.clientHeight/2 + ROW_H/2;   // center it
+    content.scrollTo({top:Math.max(0,target), behavior:behavior||"smooth"});
+    paintRows();   // virtualized: jumping the scrollTop needs the rows repainted
+  }
+}
+// Cue a track WITHOUT autoplaying (used on resume — browsers block autoplay).
+function cueAt(pos, position){
+  if(pos<0||pos>=state.queue.length) return;
+  state.qpos=pos;
+  const t=trackById(state.queue[pos]);
+  if(!t) return;
+  state.currentId=t.id;
+  audio.src=t.url;
+  if(position>0){
+    const seekOnce=()=>{ try{ audio.currentTime=position; }catch(e){} audio.removeEventListener("loadedmetadata",seekOnce); };
+    audio.addEventListener("loadedmetadata",seekOnce);
+  }
+  updateNowPlaying(t); updatePlayBtn();
+  render(); renderQueue();
+}
+function togglePlay(){
+  if(!state.currentId){
+    if(state.queue.length){ playAt(state.qpos>=0?state.qpos:0); return; }
+    if(state.view.length){ buildQueue(state.view.map(t=>t.id)); playAt(0); }
+    return;
+  }
+  if(audio.paused){ audio.play().catch(()=>{}); }
+  else { audio.pause(); }
+}
+
+// The icon is driven by what the <audio> element actually reports, not by
+// what the user asked it to do. This keeps things in sync across:
+//  - play() succeeding or failing
+//  - auto-pausing when a track ends / is skipped
+//  - browser-suspended playback
+//  - the resume-on-load path (audio.paused is true so it shows ▶ until the
+//    user presses play)
+audio.addEventListener("playing", ()=>{ state.playing=true; updatePlayBtn(); });
+audio.addEventListener("pause",   ()=>{ state.playing=false; updatePlayBtn(); schedulePlaybackSave(); });
+audio.addEventListener("ended",   ()=>{ state.playing=false; updatePlayBtn(); schedulePlaybackSave(); });
+audio.addEventListener("error",   ()=>{ state.playing=false; updatePlayBtn(); schedulePlaybackSave(); });
+
+function next(auto){
+  if(!state.queue.length) return;
+  if(state.repeat===2 && auto){ audio.currentTime=0; audio.play().catch(()=>{}); return; }
+  let pos=state.qpos+1;
+  if(pos>=state.queue.length){
+    if(state.repeat===1 || !auto){ pos=0; }
+    else { state.playing=false; updatePlayBtn(); schedulePlaybackSave(); return; }
+  }
+  playAt(pos);
+}
+function prev(){
+  if(audio.currentTime>3){ audio.currentTime=0; return; }
+  let pos=state.qpos-1;
+  if(pos<0) pos = state.repeat===1 ? state.queue.length-1 : 0;
+  playAt(pos);
+}
+
+function updateNowPlaying(t){
+  $("npTitle").textContent=t.title;
+  $("npArtist").textContent=t.artist;
+  const art=$("npArt");
+  art.innerHTML = t.picture?`<img src="${t.picture}">`:"♪";
+  if("mediaSession" in navigator){
+    navigator.mediaSession.metadata=new MediaMetadata({
+      title:t.title, artist:t.artist, album:t.album
+    });
+  }
+  document.title = t.title+" • "+t.artist+" — Localify";
+  updateNowFav();
+
+  // Keep the hero cover in sync when the playing track changes (e.g. next/prev)
+  const heroCover = document.querySelector(".hero .cover");
+  if(heroCover) heroCover.innerHTML = t.picture?`<img src="${t.picture}">`:"♪";
+
+  if($("app").classList.contains("detail-open")) populateDetailPanel(t);
+}
+function updatePlayBtn(){
+  const icon = audio.paused ? "▶" : "❚❚";
+  $("playBtn").textContent = icon;
+  const hero = $("playAll");
+  if(hero) hero.textContent = icon;
+}
+// Spotify's repeat loop icon. Repeat-one is the same loop with a "1" numeral
+// centered inside it. fill:currentColor so the green ".on" tint applies.
+const REPEAT_SVG = '<svg viewBox="0 0 16 16" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M0 4.75A3.75 3.75 0 0 1 3.75 1h.75v1.5h-.75A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75v-5zM12.25 2.5h-.75V1h.75A3.75 3.75 0 0 1 16 4.75v5a3.75 3.75 0 0 1-3.75 3.75H9.81l1.018 1.018a.75.75 0 1 1-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 1 1 1.06 1.06L9.811 12h2.439a2.25 2.25 0 0 0 2.25-2.25v-5a2.25 2.25 0 0 0-2.25-2.25z"/></svg>';
+const REPEAT_ONE_SVG = '<svg viewBox="0 0 16 16" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M0 4.75A3.75 3.75 0 0 1 3.75 1h.75v1.5h-.75A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75v-5zM12.25 2.5h-.75V1h.75A3.75 3.75 0 0 1 16 4.75v5a3.75 3.75 0 0 1-3.75 3.75H9.81l1.018 1.018a.75.75 0 1 1-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 1 1 1.06 1.06L9.811 12h2.439a2.25 2.25 0 0 0 2.25-2.25v-5a2.25 2.25 0 0 0-2.25-2.25z"/><path d="M9.28 10.5H8.03V6.917L7 7.153v-.977L8.938 5.5h.342V10.5z"/></svg>';
+
+function updateToggles(){
+  const sb=$("shuffleBtn");
+  sb.classList.toggle("on",state.shuffle);
+  sb.title = state.shuffle ? "Shuffle: on" : "Shuffle: off";
+  const rb=$("repeatBtn");
+  rb.classList.toggle("on",state.repeat>0);
+  // Spotify-style loop icon (SVG, inherits currentColor). Repeat-one adds the
+  // "1" centered inside the loop — same glyph/theme/colour as the other states.
+  rb.innerHTML = state.repeat===2 ? REPEAT_ONE_SVG : REPEAT_SVG;
+  rb.title = state.repeat===0?"Repeat: off":state.repeat===1?"Repeat: all":"Repeat: one";
+}
+
+/* ============================================================
+   QUEUE / UP-NEXT PANEL
+   ============================================================ */
+let queueOpen=false;
+function toggleQueue(force){
+  queueOpen = (force===undefined) ? !queueOpen : force;
+  $("queuePanel").classList.toggle("open",queueOpen);
+  $("queueBtn").classList.toggle("on",queueOpen);
+  if(queueOpen) renderQueue();
+}
+
+/* ============================================================
+   TRACK DETAIL PANEL  (click #npArt to open)
+   ============================================================ */
+const appEl=$("app");
+function toggleDetailPanel(force){
+  const want = (force===undefined) ? !appEl.classList.contains("detail-open") : !!force;
+  appEl.classList.toggle("detail-open", want);
+  if(want && state.currentId) populateDetailPanel(trackById(state.currentId));
+}
+function openDetailPanel(t){
+  if(!t) return;
+  populateDetailPanel(t);
+  if(!appEl.classList.contains("detail-open")) appEl.classList.add("detail-open");
+}
+let _detailTrackId=null;
+function populateDetailPanel(t){
+  _detailTrackId = t ? t.id : null;
+  const body=$("detailBody");
+  const art = t.picture
+    ? '<img src="' + t.picture + '">'
+    : '\u266B';
+  const fmt = (t.ext||"").toUpperCase();
+  const sizeStr = t.size ? fmtBytes(t.size) : "—";
+  const durStr = t.duration ? fmtTime(t.duration) : "—";
+  const location = t.name || "—";
+  let bitrate = "—";
+  if(t.size && t.duration && t.duration > 0){
+    const kbps = Math.round((t.size * 8) / (t.duration * 1000) / 1000);
+    if(kbps) bitrate = kbps + " kbps";
+  }
+  body.innerHTML =
+    '<div class="dp-art">' + art + '</div>' +
+    '<div class="dp-title">' + escapeHtml(t.title||"—") + '</div>' +
+    '<div class="dp-sub">' + escapeHtml(t.artist||"Unknown Artist") +
+      (t.album ? ' \u00B7 ' + escapeHtml(t.album) : "") +
+    '</div>' +
+    '<table class="dp-table">' +
+      row("Title", t.title) +
+      row("Artist", t.artist) +
+      row("Album", t.album) +
+      row("Format", fmt) +
+      row("Size", sizeStr) +
+      row("Duration", durStr) +
+      row("Bit rate", bitrate) +
+      row("Location", location) +
+    '</table>' +
+    '<button class="dp-delete" id="dpDelete">🗑 Delete track</button>';
+  const del=$("dpDelete");
+  if(del) del.onclick=()=>deleteTrack(t.id);
+}
+function row(label, val){
+  return '<tr><td>' + escapeHtml(label) + '</td><td>' + escapeHtml(val||"—") + '</td></tr>';
+}
+function qRow(t, idx, kind){
+  // kind: 'current' | 'next'
+  const art=t.picture?`<img src="${t.picture}">`:"♪";
+  const draggable = kind==="next" ? 'draggable="true"' : '';
+  return `<div class="qitem ${kind==='current'?'current':''}" data-qpos="${idx}" ${draggable}>
+    ${kind==='next'?'<span class="grip" title="Drag to reorder">⠿</span>':''}
+    <div class="qart">${art}</div>
+    <div class="qm">
+      <div class="t">${escapeHtml(t.title)}</div>
+      <div class="a">${escapeHtml(t.artist)}</div>
+    </div>
+    ${kind==='next'?`<button class="qx" data-qx="${idx}" title="Remove from queue">✕</button>`:''}
+  </div>`;
+}
+function renderQueue(){
+  if(!queueOpen) return;
+  const body=$("queueBody");
+  if(!state.queue.length || state.qpos<0){
+    body.innerHTML=`<div class="qp-empty">Your queue is empty.<br>Play a song or album to get started.</div>`;
+    return;
+  }
+  const cur=trackById(state.queue[state.qpos]);
+  let html="";
+  if(cur){ html+=`<div class="qp-sec">Now playing</div>`; html+=qRow(cur,state.qpos,"current"); }
+  // upcoming
+  const upcoming=[];
+  for(let i=state.qpos+1;i<state.queue.length;i++){
+    const t=trackById(state.queue[i]); if(t) upcoming.push({t,i});
+  }
+  html+=`<div class="qp-sec"><span>Next up</span>${upcoming.length?'<button class="clearq" id="qClear">Clear</button>':''}</div>`;
+  if(upcoming.length){
+    for(const {t,i} of upcoming) html+=qRow(t,i,"next");
+  } else {
+    html+=`<div class="qp-empty">Nothing queued after this.</div>`;
+  }
+  body.innerHTML=html;
+  const qc=$("qClear"); if(qc) qc.onclick=clearUpNext;
+}
+function clearUpNext(){
+  if(state.qpos<0) return;
+  state.queue = state.queue.slice(0,state.qpos+1);
+  _manualIds.clear();
+  renderQueue(); schedulePlaybackSave(); toast("Cleared up-next");
+}
+// Queue panel interactions (delegated)
+$("queueBody").addEventListener("click",e=>{
+  const xb=e.target.closest("[data-qx]");
+  if(xb){
+    e.stopPropagation();
+    const pos=+xb.dataset.qx;
+    const id=state.queue[pos];
+    state.queue.splice(pos,1);
+    _manualIds.delete(id);
+    if(pos<=state.qpos) state.qpos--;
+    renderQueue(); render(); schedulePlaybackSave();
+    return;
+  }
+  const item=e.target.closest(".qitem");
+  if(item && item.dataset.qpos!==undefined){
+    playAt(+item.dataset.qpos);
+  }
+});
+// Drag-to-reorder within "next up"
+let _dragPos=null;
+$("queueBody").addEventListener("dragstart",e=>{
+  const item=e.target.closest(".qitem[draggable=true]"); if(!item) return;
+  _dragPos=+item.dataset.qpos; item.classList.add("dragging");
+  e.dataTransfer.effectAllowed="move";
+});
+$("queueBody").addEventListener("dragend",e=>{
+  const item=e.target.closest(".qitem"); if(item) item.classList.remove("dragging");
+  [...$("queueBody").querySelectorAll(".qitem")].forEach(el=>el.classList.remove("dragover-top","dragover-bot"));
+  _dragPos=null;
+});
+$("queueBody").addEventListener("dragover",e=>{
+  const item=e.target.closest(".qitem[draggable=true]"); if(!item||_dragPos===null) return;
+  e.preventDefault();
+  const r=item.getBoundingClientRect();
+  const after=(e.clientY-r.top)>r.height/2;
+  [...$("queueBody").querySelectorAll(".qitem")].forEach(el=>el.classList.remove("dragover-top","dragover-bot"));
+  item.classList.add(after?"dragover-bot":"dragover-top");
+});
+$("queueBody").addEventListener("drop",e=>{
+  const item=e.target.closest(".qitem[draggable=true]"); if(!item||_dragPos===null) return;
+  e.preventDefault();
+  let to=+item.dataset.qpos;
+  const r=item.getBoundingClientRect();
+  const after=(e.clientY-r.top)>r.height/2;
+  if(after) to++;
+  const from=_dragPos;
+  const [moved]=state.queue.splice(from,1);
+  if(from<to) to--;
+  state.queue.splice(to,0,moved);
+  renderQueue(); schedulePlaybackSave();
+});
+
+/* ============================================================
+   PLAYLISTS  (persisted in IndexedDB 'playlists' store)
+   A playlist references tracks by their stable key (name|size),
+   so it survives reloads and re-imports.
+   ============================================================ */
+function plRecord(p){ return {id:p.id, name:p.name, trackKeys:p.trackKeys.slice(), created:p.created, remote:!!p.remote, spotifyId:p.spotifyId||null, owner:p.owner||null}; }
+function persistPlaylist(p){ idbPut(plRecord(p), DB_PL); }
+function newPlaylistId(){ return "pl_"+Date.now().toString(36)+"_"+(_plSeq++); }
+
+function createPlaylist(name, seedKeys){
+  const p={ id:newPlaylistId(), name:name.trim()||"New Playlist", trackKeys:(seedKeys||[]).slice(), created:Date.now() };
+  state.playlists.unshift(p);
+  persistPlaylist(p);
+  rebuildLibrary();
+  return p;
+}
+function deletePlaylist(id){
+  const i=state.playlists.findIndex(p=>p.id===id); if(i<0) return;
+  const p=state.playlists[i];
+  if(!confirm('Delete playlist "'+p.name+'"? (Your tracks stay in the library.)')) return;
+  state.playlists.splice(i,1);
+  idbDelete(id, DB_PL);
+  if(currentAlbum==="pl:"+id){ currentAlbum="__all__"; _chromeKey=null; }
+  rebuildLibrary(); render();
+  toast("Playlist deleted");
+}
+function addToPlaylist(plId, trackKey){
+  const p=state.playlists.find(x=>x.id===plId); if(!p) return;
+  if(p.trackKeys.includes(trackKey)){ toast("Already in “"+p.name+"”"); return; }
+  p.trackKeys.push(trackKey);
+  persistPlaylist(p);
+  if(currentAlbum==="pl:"+plId){ _chromeKey=null; render(); }
+  rebuildLibrary();
+  toast('Added to "'+p.name+'"');
+}
+function removeFromPlaylist(plId, trackKey){
+  const p=state.playlists.find(x=>x.id===plId); if(!p) return;
+  p.trackKeys=p.trackKeys.filter(k=>k!==trackKey);
+  persistPlaylist(p);
+  _chromeKey=null; rebuildLibrary(); render();
+  toast("Removed from playlist");
+}
+/* ============================================================
+   SPOTIFY PLAYLIST IMPORT  (metadata + cover art + preview, no files)
+   Spotify's Web API sends Access-Control-Allow-Origin: *, so a browser
+   fetch works from file://. The token-issuing endpoint does NOT have CORS,
+   so the user pastes a token (Settings). Audio is DRM and can't be fetched
+   by the browser — each track's 30s `preview_url` is used for playback.
+   ============================================================ */
+function parseSpotifyId(input){
+  if(!input) return null;
+  input = input.trim();
+  // accept full URL, /playlist/ID, spotify:playlist:ID, or bare ID
+  let m = input.match(/playlist[/:]([0-9A-Za-z]+)/);
+  if(m) return m[1];
+  if(/^[0-9A-Za-z]{10,}$/.test(input)) return input;   // bare id
+  return null;
+}
+async function spotifyGet(url){
+  const resp = await fetch(url, { headers: { "Authorization": "Bearer " + CONFIG.spotifyToken } });
+  if(resp.status === 401) throw new Error("Spotify token expired or invalid — paste a fresh token in Settings.");
+  if(!resp.ok) throw new Error("Spotify API " + resp.status);
+  return resp.json();
+}
+// Pull a playlist (following pagination) and turn it into Localify tracks.
+async function importSpotifyPlaylist(input){
+  if(!CONFIG.hasSpotify){ toast("Add your Spotify token in Settings first"); openSettings(); return; }
+  const id = parseSpotifyId(input);
+  if(!id){ toast("That doesn't look like a Spotify playlist link or ID"); return; }
+  toast("Reading Spotify playlist…");
+  let data;
+  try{
+    data = await spotifyGet("https://api.spotify.com/v1/playlists/" + id + "?market=from_token&additional_types=track");
+  }catch(e){ toast(e.message); return; }
+  // Walk the (paginated) tracks list.
+  let items = data.tracks ? data.tracks.items : [];
+  let next = data.tracks ? data.tracks.next : null;
+  while(next){
+    try{
+      const pg = await spotifyGet(next);
+      items = items.concat(pg.items || []);
+      next = pg.next;
+    }catch(e){ toast("Couldn't read all pages: " + e.message); break; }
+  }
+  const added = [];
+  for(const it of items){
+    const tr = it.track;
+    if(!tr || tr.type !== "track") continue;
+    const t = makeRemoteTrack(tr);
+    if(t) added.push(t);
+  }
+  if(!added.length){ toast("No playable tracks found in that playlist"); return; }
+  // Add to the library.
+  for(const t of added) state.tracks.push(t);
+  // Make a Localify playlist mirroring the Spotify one.
+  const pl = createPlaylist(data.name || "Spotify playlist", added.map(t=>t.key));
+  pl.remote = true; pl.spotifyId = id; pl.owner = data.owner ? data.owner.display_name : null;
+  persistPlaylist(pl);
+  rebuildLibrary(); render();
+  toast("Imported " + added.length + " tracks from “" + (data.name||"playlist") + "”");
+}
+// Build a Localify track object from a Spotify track object.
+function makeRemoteTrack(tr){
+  if(!tr || !tr.uri) return null;
+  const key = "sp:" + tr.uri.split(":").pop();
+  if(trackByKey(key)) return trackByKey(key);   // already imported
+  const artists = (tr.artists || []).map(a=>a.name).join(", ");
+  const album = (tr.album && tr.album.name) || "Spotify";
+  // Album art: largest available image.
+  let art = null;
+  const imgs = tr.album && tr.album.images;
+  if(imgs && imgs.length) art = imgs.sort((a,b)=>(b.width||0)-(a.width||0))[0].url;
+  const dur = Math.round((tr.duration_ms||0)/1000);
+  const title = tr.name || "Unknown";
+  return {
+    id: _idSeq++, key, remote: true,
+    name: title + (artists ? " - " + artists : ""),
+    title, artist: artists || "Unknown Artist", album,
+    duration: dur, url: tr.preview_url || "",   // 30s preview (or "" if unavailable)
+    previewUrl: tr.preview_url || null,
+    spotifyUri: tr.uri, albumArt: art,
+    picture: art, remoteArtUrl: art,
+    ext: "spotify", meta: true, identified: false, fingerprint: null,
+    acoustid: null, manualMeta: false,
+    fileHandle: null, parentHandle: null, relPath: null,
+    picBytes: null, picMime: null
+  };
+}
+function playlistTracks(p){
+  // map keys -> current track objects, preserving playlist order, skipping missing
+  return p.trackKeys.map(k=>trackByKey(k)).filter(Boolean);
+}
+
+/* ============================================================
+   CONTEXT MENU  (right-click a track row, or ⋯ in queue)
+   ============================================================ */
+const ctx=$("ctxMenu");
+function openContextMenu(x,y,trackId,opts){
+  opts=opts||{};
+  const t=trackById(trackId); if(!t) return;
+  let plList = state.playlists.map(p=>
+    `<button data-act="addpl" data-pl="${p.id}">${escapeHtml(p.name)}</button>`).join("")
+    || `<div class="qp-empty" style="padding:10px">No playlists yet</div>`;
+  ctx.innerHTML=`
+    <button data-act="next">▸ Play next</button>
+    <button data-act="queue">≣ Add to queue</button>
+    <div class="sep"></div>
+    <button data-act="fav">${t.favorite?"♥ Remove from Liked Songs":"♡ Save to Liked Songs"}</button>
+    <div class="sep"></div>
+    <div class="sub">
+      <button>＋ Add to playlist <span class="arrow">▸</span></button>
+      <div class="flyout">
+        <button data-act="newpl">＋ New playlist…</button>
+        <div class="sep"></div>
+        ${plList}
+      </div>
+    </div>
+    ${opts.inPlaylist?`<div class="sep"></div><button data-act="rmpl">🗑 Remove from this playlist</button>`:''}
+    <div class="sep"></div>
+    <button data-act="del" class="danger">🗑 Delete track…</button>
+    ${state.selected.size>1 && state.selected.has(trackId)
+      ? `<button data-act="delsel" class="danger">🗑 Delete ${state.selected.size} selected…</button>` : ''}
+    ${CONFIG.hasKey ? `<div class="sep"></div><button data-act="identify">🔎 Identify track (by sound)</button>` : ''}
+  `;
+  ctx.style.left="0px"; ctx.style.top="0px"; ctx.classList.add("open");
+  // keep on-screen
+  const r=ctx.getBoundingClientRect();
+  const px=Math.min(x, window.innerWidth - r.width - 8);
+  const py=Math.min(y, window.innerHeight - r.height - 8);
+  ctx.style.left=px+"px"; ctx.style.top=py+"px";
+
+  ctx.onclick=(e)=>{
+    const b=e.target.closest("button[data-act]"); if(!b) return;
+    const act=b.dataset.act;
+    if(act==="next") enqueueNext(trackId);
+    else if(act==="queue") enqueueLast(trackId);
+    else if(act==="fav") toggleFavorite(trackId);
+    else if(act==="addpl") addToPlaylist(b.dataset.pl, t.key);
+    else if(act==="newpl") openModal("Create playlist", "", (name)=>{ const p=createPlaylist(name,[t.key]); toast('Created "'+p.name+'"'); });
+    else if(act==="rmpl" && opts.inPlaylist) removeFromPlaylist(opts.inPlaylist, t.key);
+    else if(act==="del") deleteTrack(trackId);
+    else if(act==="delsel") deleteSelected();
+    else if(act==="identify"){
+      toast("Identifying “"+(t.title||t.name)+"” by sound…");
+      updateIdStatus("busy");
+      const albumBefore = albumKeyOf(t);
+      identifyTrack(t, {force:true}).then(ok=>{
+        if(ok){
+          updateIdStatus("done", 1);
+          // Report the resolved tags, so "it found something but changed
+          // nothing" is visibly different from "it updated the track".
+          toast("Identified: " + [t.title, t.artist, t.album].filter(Boolean).join(" — "));
+          // The album may have just been renamed out from under the view.
+          if(followAlbumMove(albumBefore, albumKeyOf(t))){
+            scheduleRender(); schedulePlaybackSave();
+          }
+        }
+        else { updateIdStatus("hidden"); toast("No AcoustID match for “"+(t.title||t.name)+"”"); }
+      }).catch(err=>{
+        updateIdStatus("hidden");
+        toast("Identify failed — " + ((err && err.message) || err));
+      });
+    }
+  };
+}
+function closeContextMenu(){ ctx.classList.remove("open"); ctx.onclick=null; }
+document.addEventListener("click",e=>{ if(!e.target.closest("#ctxMenu")) closeContextMenu(); });
+document.addEventListener("scroll",closeContextMenu,true);
+window.addEventListener("blur",closeContextMenu);
+
+/* ============================================================
+   MODAL (create / rename playlist)
+   ============================================================ */
+let _modalCb=null;
+function openModal(title, value, cb){
+  $("modalTitle").textContent=title;
+  const inp=$("modalInput"); inp.value=value||"";
+  _modalCb=cb;
+  $("modalBg").classList.add("open");
+  setTimeout(()=>{ inp.focus(); inp.select(); },30);
+}
+function closeModal(){ $("modalBg").classList.remove("open"); _modalCb=null; }
+function commitModal(){
+  const v=$("modalInput").value.trim();
+  if(!v){ closeModal(); return; }
+  const cb=_modalCb; closeModal(); if(cb) cb(v);
+}
+$("modalOk").onclick=commitModal;
+$("modalCancel").onclick=closeModal;
+$("modalBg").addEventListener("click",e=>{ if(e.target===$("modalBg")) closeModal(); });
+$("modalInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter") commitModal();
+  else if(e.key==="Escape") closeModal();
+});
+
+/* ---------- Confirm (Are you sure?) dialog — Promise-based ---------- */
+let _confirmCb=null;
+// `danger` defaults to true (this dialog started life as the delete prompt).
+// Pass false for reversible/organisational actions so the confirm button isn't
+// red — a red "Merge 40 albums" reads as "this destroys something".
+function confirmDialog({title, message, okLabel, danger}){
+  $("confirmTitle").textContent = title || "Are you sure?";
+  $("confirmMsg").innerHTML = message || "";
+  $("confirmOk").textContent = okLabel || "Delete";
+  $("confirmOk").classList.toggle("danger-btn", danger !== false);
+  $("confirmMsg").scrollTop = 0;          // always open at the top of a long body
+  $("confirmBg").classList.add("open");
+  return new Promise(res=>{ _confirmCb=res; });
+}
+function closeConfirm(result){
+  $("confirmBg").classList.remove("open");
+  const cb=_confirmCb; _confirmCb=null;
+  if(cb) cb(result);
+}
+$("confirmOk").onclick=()=>closeConfirm(true);
+$("confirmCancel").onclick=()=>closeConfirm(false);
+$("confirmBg").addEventListener("click",e=>{ if(e.target===$("confirmBg")) closeConfirm(false); });
+document.addEventListener("keydown",e=>{
+  if($("confirmBg").classList.contains("open") && e.key==="Escape") closeConfirm(false);
+});
+
+/* ============================================================
+   SETTINGS  — AcoustID key + auto-identify toggle
+   ============================================================ */
+function openSettings(){
+  try { getAudioContext(); } catch(e) { /* audio not needed to open settings */ }
+  $("acoustidKeyInput").value = CONFIG.acoustidKey;
+  $("identifyToggle").checked = CONFIG.identifyEnabled;
+  $("identifyNowBtn").disabled = !CONFIG.hasKey;
+  $("identifyNowBtn").style.opacity = CONFIG.hasKey ? "1" : "0.5";
+  $("spotifyTokenInput").value = CONFIG.spotifyToken;
+  $("settingsBg").classList.add("open");
+  setTimeout(()=>$("acoustidKeyInput").focus(), 30);
+}
+function closeSettings(){ $("settingsBg").classList.remove("open"); }
+function saveSettings(){
+  CONFIG.acoustidKey = $("acoustidKeyInput").value.trim();
+  CONFIG.identifyEnabled = $("identifyToggle").checked;
+  CONFIG.spotifyToken = $("spotifyTokenInput").value.trim();
+  $("identifyNowBtn").disabled = !CONFIG.hasKey;
+  $("identifyNowBtn").style.opacity = CONFIG.hasKey ? "1" : "0.5";
+  if(CONFIG.hasKey) toast("AcoustID key saved — identifying on next scan");
+  else toast("Settings saved");
+  // The Identify buttons only exist when a key does, so redraw the chrome
+  // instead of making the user switch views to make them appear.
+  _chromeKey=null; render(); updateSelectionBar();
+}
+$("settingsBtn").onclick = () => { openSettings(); };
+$("settingsClose").onclick = () => { saveSettings(); closeSettings(); };
+$("settingsBg").addEventListener("click", e=>{ if(e.target===$("settingsBg")){ saveSettings(); closeSettings(); } });
+$("acoustidKeyInput").addEventListener("keydown", e=>{ if(e.key==="Enter"){ saveSettings(); closeSettings(); } });
+$("spotifyTokenInput").addEventListener("keydown", e=>{ if(e.key==="Enter"){ saveSettings(); closeSettings(); } });
+$("identifyNowBtn").onclick = () => {
+  saveSettings();
+  closeSettings();
+  identifyMissing();
+};
+$("dedupeBtn").onclick = () => {
+  saveSettings();
+  closeSettings();
+  removeDuplicateTracks();
+};
+// Spotify: ask for a playlist link/ID, then import it.
+$("importSpotifyBtn").onclick = () => {
+  if(!CONFIG.hasSpotify){ openSettings(); toast("Paste a Spotify token in Settings first"); return; }
+  openModal("Import Spotify playlist", "", (val)=>{
+    if(val && val.trim()) importSpotifyPlaylist(val.trim());
+  });
+  // tweak the modal input placeholder for this use
+  const inp = $("modalInput"); if(inp) inp.placeholder = "Spotify playlist link or ID";
+};
+
+/* ============================================================
+   DELETE A TRACK — removes it from the library AND, when the file was
+   imported via the File System Access API, permanently deletes it from disk.
+   Always asks "Are you sure?" first.
+   ============================================================ */
+async function deleteTrack(id){
+  const t=trackById(id); if(!t) return;
+  const canDeleteDisk = !!(t.fileHandle || t.parentHandle);
+  const warn = canDeleteDisk
+    ? `This permanently deletes <b>${escapeHtml(t.title)}</b> from your disk. This cannot be undone.`
+    : `Remove <b>${escapeHtml(t.title)}</b> from your library? <br><br>This track wasn't opened with folder access, so the file on disk <b>can't</b> be deleted — it'll only be removed from Localify.`;
+  const ok = await confirmDialog({
+    title: canDeleteDisk ? "Delete from disk?" : "Remove from library?",
+    message: warn,
+    okLabel: canDeleteDisk ? "Delete file" : "Remove"
+  });
+  if(!ok) return;
+
+  // 1) Delete from disk if we have a writable handle.
+  if(canDeleteDisk){
+    try{
+      const okPerm = await ensureRWPermission(t);
+      if(!okPerm){ toast("Permission to modify the folder was denied"); return; }
+      if(t.parentHandle && typeof t.parentHandle.removeEntry==="function"){
+        await t.parentHandle.removeEntry(t.name);
+      } else if(t.fileHandle && typeof t.fileHandle.remove==="function"){
+        await t.fileHandle.remove();
+      } else {
+        toast("This browser can't delete the file from disk"); return;
+      }
+    }catch(e){
+      toast("Couldn't delete the file: "+(e && e.name==="NotFoundError" ? "already gone" : (e&&e.message)||"error"));
+      // If the file is simply already gone, fall through and clean up the library.
+      if(!(e && e.name==="NotFoundError")) return;
+    }
+  }
+
+  // 2) Remove from the in-memory library + persistence, fixing up playback.
+  await removeTrackEverywhere(t);
+  toast(canDeleteDisk ? `Deleted "${t.title}"` : `Removed "${t.title}"`);
+}
+
+// Request readwrite permission on the file's handle (needed after a reload,
+// since permission grants don't persist). Must run in a user gesture — it does,
+// via the confirm-button click.
+async function ensureRWPermission(t){
+  const h = t.parentHandle || t.fileHandle;
+  if(!h || !h.queryPermission) return true;   // nothing to check
+  try{
+    const opts={mode:"readwrite"};
+    if(await h.queryPermission(opts)==="granted") return true;
+    return (await h.requestPermission(opts))==="granted";
+  }catch(e){ return false; }
+}
+
+// Delete every currently-selected track in one confirmed batch.
+async function deleteSelected(){
+  const tracks=[...state.selected].map(trackById).filter(Boolean);
+  if(!tracks.length) return;
+  const diskCount=tracks.filter(t=>t.fileHandle||t.parentHandle).length;
+  const libOnly=tracks.length-diskCount;
+  let msg=`Delete <b>${tracks.length}</b> selected track${tracks.length>1?'s':''}?`;
+  if(diskCount) msg+=`<br><br><b>${diskCount}</b> will be permanently deleted from your disk. This cannot be undone.`;
+  if(libOnly) msg+=`<br><br><b>${libOnly}</b> weren't opened with folder access, so those files can't be deleted from disk — they'll only be removed from Localify.`;
+  const ok=await confirmDialog({title:"Delete selected tracks?", message:msg, okLabel:`Delete ${tracks.length}`});
+  if(!ok) return;
+
+  let done=0, failed=0;
+  for(const t of tracks){
+    const canDisk=!!(t.fileHandle || t.parentHandle);
+    if(canDisk){
+      try{
+        if(!(await ensureRWPermission(t))){ failed++; continue; }
+        if(t.parentHandle && typeof t.parentHandle.removeEntry==="function") await t.parentHandle.removeEntry(t.name);
+        else if(t.fileHandle && typeof t.fileHandle.remove==="function") await t.fileHandle.remove();
+      }catch(e){
+        if(!(e && e.name==="NotFoundError")){ failed++; continue; }  // already gone -> still clean up
+      }
+    }
+    await removeTrackEverywhere(t, {defer:true});
+    done++;
+  }
+  clearSelection();
+  _chromeKey=null; _libKey=null;
+  rebuildLibrary(); render(); renderQueue(); schedulePlaybackSave();
+  toast(`Deleted ${done} track${done!==1?'s':''}`+(failed?`, ${failed} failed`:''));
+}
+
+// Strip a track from state, IndexedDB, playlists and the play queue, and keep
+// playback sane if the deleted track was playing. Pass {defer:true} to skip the
+// re-render (bulk deletes render once at the end).
+async function removeTrackEverywhere(t, opts){
+  opts=opts||{};
+  const wasCurrent = state.currentId===t.id;
+  const qIdx = state.queue.indexOf(t.id);
+
+  // Remove from the master list.
+  const ti = state.tracks.findIndex(x=>x.id===t.id);
+  if(ti>=0) state.tracks.splice(ti,1);
+  try{ URL.revokeObjectURL(t.url); }catch(e){}
+  if(t.picture && !t.remoteArtUrl){ try{ URL.revokeObjectURL(t.picture); }catch(e){} }
+
+  // Remove from the play queue and keep qpos pointing at the right track.
+  // (If we removed the current or an earlier entry, shift qpos back one; the
+  // wasCurrent branch below then re-lands on the following track.)
+  if(qIdx>=0){
+    state.queue.splice(qIdx,1);
+    if(qIdx<=state.qpos) state.qpos--;
+  }
+  _manualIds.delete(t.id);
+  state.selected.delete(t.id);
+
+  // Close the detail panel if it was showing this track.
+  if(_detailTrackId===t.id){ _detailTrackId=null; appEl.classList.remove("detail-open"); }
+
+  // Remove from any playlists that referenced it (by stable key).
+  let plChanged=false;
+  for(const p of state.playlists){
+    const before=p.trackKeys.length;
+    p.trackKeys=p.trackKeys.filter(k=>k!==t.key);
+    if(p.trackKeys.length!==before){ plChanged=true; persistPlaylist(p); }
+  }
+
+  // Purge from IndexedDB (metadata + audio blob).
+  _dirty.delete(t.key);
+  await Promise.all([idbDelete(t.key, DB_STORE), idbDelete(t.key, DB_BLOBS)]);
+
+  // If the playing track was the one deleted, move to the next queued track
+  // (or stop if the queue is now empty).
+  if(wasCurrent){
+    if(state.queue.length){
+      const nextPos=Math.min(state.qpos+1, state.queue.length-1);
+      playAt(Math.max(0,nextPos));
+    } else {
+      try{ audio.pause(); }catch(e){}
+      audio.removeAttribute("src");
+      state.currentId=null; state.playing=false; state.qpos=-1;
+      $("npTitle").textContent="—"; $("npArtist").textContent="Select a track";
+      $("npArt").innerHTML="♪"; updatePlayBtn(); updateNowFav();
+    }
+  }
+
+  if(!opts.defer){
+    _chromeKey=null; _libKey=null;
+    rebuildLibrary(); render(); renderQueue(); schedulePlaybackSave();
+  }
+}
+
+/* ============================================================
+   RESUME — persist last track + position + queue
+   ============================================================ */
+
+// True only on the first load of a browser session — a fresh browser start or a
+// newly opened tab — and false for an in-tab reload or a back/forward. That's
+// exactly what sessionStorage's lifetime gives us: per-tab, cleared when the
+// browser closes. Read once, at startup, because reading it also claims it.
+const NEW_BROWSER_SESSION = (() => {
+  try{
+    if(sessionStorage.getItem("localify.session")) return false;
+    sessionStorage.setItem("localify.session","1");
+    return true;
+  }catch(e){ return false; }   // storage blocked (private mode): treat as a reload
+})();
+
+let _saveTimer=null;
+function schedulePlaybackSave(){
+  if(_saveTimer) return;
+  _saveTimer=setTimeout(savePlaybackState, 800);
+}
+async function savePlaybackState(){
+  _saveTimer=null;
+  const cur=state.currentId!=null?trackById(state.currentId):null;
+  const rec={
+    k:"playback",
+    currentKey: cur?cur.key:null,
+    position: audio.currentTime||0,
+    queueKeys: state.queue.map(id=>{ const t=trackById(id); return t?t.key:null; }).filter(Boolean),
+    qpos: state.qpos,
+    manualKeys: [..._manualIds].map(id=>{ const t=trackById(id); return t?t.key:null; }).filter(Boolean),
+    shuffle: state.shuffle, repeat: state.repeat, volume: audio.volume,
+    view: currentAlbum
+  };
+  await idbPut(rec, DB_APP);
+}
+// Save periodically while playing + on unload.
+audio.addEventListener("timeupdate",()=>{ schedulePlaybackSave(); });
+window.addEventListener("beforeunload",()=>{ try{ savePlaybackState(); }catch(e){} });
+
+async function restorePlaybackState(){
+  let rec; try{ rec=await idbGet("playback", DB_APP); }catch(e){ rec=null; }
+  if(!rec) return;
+  // volume + toggles
+  if(typeof rec.volume==="number"){ audio.volume=rec.volume; $("vol").value=Math.round(rec.volume*100); $("vol").dispatchEvent(new Event("input")); }
+  state.shuffle=!!rec.shuffle; state.repeat=rec.repeat||0; updateToggles();
+  // restore view if it still exists
+  if(rec.view){
+    if(rec.view==="__all__") currentAlbum="__all__";
+    else if(rec.view===FAV_VIEW) currentAlbum=FAV_VIEW;
+    else if(rec.view.startsWith("alb:") && albums().some(a=>"alb:"+a.key===rec.view)) currentAlbum=rec.view;
+    else if(rec.view.startsWith("pl:") && state.playlists.some(p=>"pl:"+p.id===rec.view)) currentAlbum=rec.view;
+  }
+  // rebuild queue from keys
+  const q=(rec.queueKeys||[]).map(k=>{ const t=trackByKey(k); return t?t.id:null; }).filter(v=>v!=null);
+  if(q.length){
+    state.queue=q;
+    state.qpos=Math.min(Math.max(0,rec.qpos|0), q.length-1);
+    _manualIds.clear();
+    (rec.manualKeys||[]).forEach(k=>{ const t=trackByKey(k); if(t) _manualIds.add(t.id); });
+  }
+  // cue the last track at its saved position (paused — user presses play to resume)
+  let landOn=null;
+  if(rec.currentKey){
+    const t=trackByKey(rec.currentKey);
+    if(t){
+      let pos=state.queue.indexOf(t.id);
+      if(pos<0){ state.queue=[t.id]; pos=0; state.qpos=0; }
+      cueAt(pos, rec.position||0);
+      $("npArtist").textContent = t.artist+"  ·  ⏯ press play to resume";
+      landOn=t;
+    }
+  }
+  // Opening the app fresh (browser restart / new tab): start on the last-played
+  // track instead of wherever the tab happened to be pointed when it closed.
+  // focusCurrentTrack keeps the saved view when it already holds the track, so
+  // this only moves you when the track is somewhere else.
+  if(landOn && NEW_BROWSER_SESSION) focusCurrentTrack();
+  rebuildLibrary(); render(); renderQueue();
+  // After render(), so the row exists and state.view is current. No smooth
+  // scroll on startup — the list should simply open at the right place.
+  if(landOn && NEW_BROWSER_SESSION) scrollCurrentIntoView("auto");
+}
+
+/* ============================================================
+   ALBUMS PAGE  — grid of all albums, independent of currentAlbum
+   ============================================================ */
+let _albumsView = false;   // true = showing the full albums grid
+let _albumsKey  = null;    // cache key so we only rebuild when data changes
+let _albumsFilter = "";    // artist/group filter text for the albums grid
+
+function setAlbumsView(on){
+  _albumsView = on;
+  // update nav active states
+  const nh = $("navHome"), na = $("navAlbums");
+  if(nh){ nh.classList.toggle("active", !on); }
+  if(na){ na.classList.toggle("active", on); }
+  if(on){ _albumsKey = null; renderAlbumsPage(); }
+  else   { $("content").onclick = null; render(); }   // drop the grid's delegated handler
+}
+
+// Albums whose artist/group matches the filter box. Matches the album's own
+// credit AND any track's artist, so filtering a compilation by a guest artist
+// still finds it.
+function albumMatchesArtist(a, q){
+  if(!q) return true;
+  if(String(a.artist||"").toLowerCase().includes(q)) return true;
+  return a.tracks.some(t =>
+    String(t.albumArtist||"").toLowerCase().includes(q) ||
+    String(t.artist||"").toLowerCase().includes(q));
+}
+
+function albumCardHtml(a){
+  const art = a.picture ? `<img src="${a.picture}" loading="lazy">` : "💿";
+  const trackWord = a.tracks.length === 1 ? "song" : "songs";
+  // Prefer the album artist; fall back to surveying the tracks.
+  let sub = a.artist && !isUnknownArtist(a.artist) ? a.artist : "";
+  if(isVariousArtistsName(a.artist)) sub = "Various Artists";
+  if(!sub){
+    const artistSet = new Set(a.tracks.map(t=>t.artist).filter(x=>x && !isUnknownArtist(x)));
+    sub = artistSet.size === 1 ? [...artistSet][0]
+        : (artistSet.size > 1 ? "Various Artists" : "Unknown Artist");
+  }
+  return `<div class="album-card" data-alb="${escapeHtml(a.key)}">
+      <div class="ac-art">
+        ${art}
+        <button class="ac-play" data-albplay="${escapeHtml(a.key)}" title="Play ${escapeHtml(a.name)}">▶</button>
+      </div>
+      <div class="ac-title" title="${escapeHtml(a.name)}">${escapeHtml(a.name)}</div>
+      <div class="ac-sub">${escapeHtml(sub)} · ${a.tracks.length} ${trackWord}</div>
+    </div>`;
+}
+
+// Repaint just the two grids. Kept separate from the page shell so typing in the
+// filter box doesn't rebuild the input and steal its focus mid-keystroke.
+function paintAlbumSections(){
+  const withArt = $("albumsGrid"), noArt = $("albumsGridNoArt");
+  if(!withArt || !noArt) return;
+  const q = _albumsFilter.trim().toLowerCase();
+  const matching = albums().filter(a => albumMatchesArtist(a, q));
+  const haveArt = matching.filter(a=>a.picture).sort(byAlbumName);
+  const lackArt = matching.filter(a=>!a.picture).sort(byAlbumName);
+
+  withArt.innerHTML = haveArt.map(albumCardHtml).join("");
+  noArt.innerHTML   = lackArt.map(albumCardHtml).join("");
+  const secArt = $("albumsSecArt"), secNo = $("albumsSecNoArt");
+  if(secArt) secArt.style.display = haveArt.length ? "" : "none";
+  if(secNo)  secNo.style.display  = lackArt.length ? "" : "none";
+  const cNo = $("albumsNoArtCount");
+  if(cNo) cNo.textContent = lackArt.length + " album" + (lackArt.length===1?"":"s");
+  const empty = $("albumsNoMatch");
+  if(empty){
+    empty.style.display = matching.length ? "none" : "";
+    empty.textContent = q ? `No albums by an artist matching “${_albumsFilter.trim()}”.` : "No albums yet.";
+  }
+  const clr = $("albumsFilterClear");
+  if(clr) clr.style.display = q ? "" : "none";
+}
+
+function renderAlbumsPage(){
+  const content = $("content");
+  const al = albums();
+
+  // If we have no tracks yet, show a nudge
+  if(!al.length){
+    _albumsKey = null;
+    content.innerHTML = `<div class="empty" id="emptyState">
+      <div class="big">💿</div><h3>No albums yet</h3>
+      <p>Add local MP3 / OGG files and Localify will group them into albums automatically.</p>
+      <div style="display:flex;gap:12px">
+        <button class="topbtn" id="addMusicBtn2">＋ Add Music</button>
+        <button class="topbtn ghost" id="addFolderBtn2">Add Folder</button>
+      </div></div>`;
+    $("addMusicBtn2").onclick = ()=>$("fileInput").click();
+    $("addFolderBtn2").onclick = ()=>$("folderInput").click();
+    return;
+  }
+
+  // Cache key — only rebuild the shell if the album data itself changed. The
+  // filter deliberately isn't part of this: typing repaints the grids only.
+  const key = "albums|" + al.map(a => a.key + ":" + a.tracks.length + (a.picture?"*":"")).join("|");
+  if(key !== _albumsKey || !$("albumsGrid")){
+    _albumsKey = key;
+    content.innerHTML = `
+      <div class="albums-head-row">
+        <h2 class="albums-page-head">Albums</h2>
+        <div class="albums-filter">
+          <span class="af-ic">⌕</span>
+          <input id="albumsFilter" type="text" placeholder="Filter by artist or group…"
+                 autocomplete="off" spellcheck="false" value="${escapeHtml(_albumsFilter)}" />
+          <button id="albumsFilterClear" title="Clear filter">✕</button>
+        </div>
+      </div>
+      <div class="lib-empty" id="albumsNoMatch" style="display:none;padding:26px 10px"></div>
+      <section id="albumsSecArt">
+        <div class="albums-grid" id="albumsGrid"></div>
+      </section>
+      <section id="albumsSecNoArt">
+        <div class="albums-subhead">
+          <span>No cover art</span>
+          <span class="asub-count" id="albumsNoArtCount"></span>
+        </div>
+        <div class="albums-grid" id="albumsGridNoArt"></div>
+      </section>`;
+
+    const fi = $("albumsFilter");
+    fi.oninput = () => { _albumsFilter = fi.value; paintAlbumSections(); };
+    // Escape clears without leaving the field.
+    fi.onkeydown = (e) => {
+      if(e.key === "Escape"){ e.stopPropagation(); fi.value = ""; _albumsFilter = ""; paintAlbumSections(); }
+    };
+    $("albumsFilterClear").onclick = () => {
+      _albumsFilter = ""; fi.value = ""; paintAlbumSections(); fi.focus();
+    };
+
+    // Delegated so the handlers survive every repaint of the grids.
+    content.onclick = (e) => {
+      const play = e.target.closest(".ac-play");
+      if(play){ e.stopPropagation(); openAlbumFromGrid(play.dataset.albplay, true); return; }
+      const card = e.target.closest(".album-card");
+      if(card) openAlbumFromGrid(card.dataset.alb, false);
+    };
+  }
+
+  paintAlbumSections();
+}
+
+// Drill into an album from the grid, optionally starting playback.
+function openAlbumFromGrid(key, play){
+  const a = albumByKey(key);
+  const tracks = state.tracks.filter(t => albumKeyOf(t) === key);
+  if(play && !tracks.length) return;
+  _albumsView = false;
+  _albumsKey = null;
+  $("content").onclick = null;   // leaving the grid; stop delegating its clicks
+  currentAlbum = "alb:" + key;
+  _chromeKey = null;
+  rebuildLibrary();
+  if(play){
+    buildQueue(tracks.map(t=>t.id));
+    playAt(0);                 // renders the track view for this album
+  } else {
+    render();
+  }
+  injectAlbumBackBtn();        // add the back breadcrumb above the hero
+  if($("navHome")) $("navHome").classList.remove("active");
+  if($("navAlbums")) $("navAlbums").classList.add("active");
+  if(play) toast("Playing " + (a ? a.name : "album"));
+}
+
+// Inject a "← Albums" breadcrumb above the hero when the user drills in from the albums view
+function injectAlbumBackBtn(){
+  const hero = $("content").querySelector(".hero");
+  if(!hero || hero.querySelector(".hero-back")) return;
+  const btn = document.createElement("button");
+  btn.className = "hero-back";
+  btn.innerHTML = '<span class="hb-arrow">←</span> Albums';
+  btn.onclick = () => { setAlbumsView(true); };
+  $("content").insertBefore(btn, hero);
+}
+
+/* ============================================================
+   WIRE UP EVENTS
+   ============================================================ */
+audio.addEventListener("timeupdate",()=>{
+  const d=audio.duration||0, c=audio.currentTime||0;
+  $("curTime").textContent=fmtTime(c);
+  if(d){ $("durTime").textContent=fmtTime(d);
+    const pct=(c/d)*100; const s=$("seek");
+    s.value=Math.round((c/d)*1000); s.style.setProperty("--p",pct+"%"); }
+});
+audio.addEventListener("ended",()=>next(true));
+audio.addEventListener("play",()=>{
+  state.playing=true; updatePlayBtn();
+  const row=document.querySelector('.trow[data-id="'+state.currentId+'"]');
+  if(row) row.classList.add('playing');
+});
+audio.addEventListener("pause",()=>{
+  state.playing=false; updatePlayBtn();
+  const row=document.querySelector('.trow[data-id="'+state.currentId+'"]');
+  if(row) row.classList.remove('playing');
+});
+
+$("seek").addEventListener("input",e=>{
+  if(audio.duration){ audio.currentTime=(e.target.value/1000)*audio.duration;
+    e.target.style.setProperty("--p",(e.target.value/10)+"%"); }
+});
+$("vol").addEventListener("input",e=>{
+  const v=e.target.value/100; audio.volume=v; state.lastVol=v||state.lastVol;
+  e.target.style.setProperty("--p",e.target.value+"%");
+  $("muteBtn").textContent = v===0?"🔇":v<0.5?"🔉":"🔊";
+});
+$("muteBtn").onclick=()=>{
+  if(audio.volume>0){ state.lastVol=audio.volume; audio.volume=0; $("vol").value=0; }
+  else { audio.volume=state.lastVol||1; $("vol").value=Math.round((state.lastVol||1)*100); }
+  $("vol").dispatchEvent(new Event("input"));
+};
+$("playBtn").onclick=togglePlay;
+$("nextBtn").onclick=()=>next(false);
+$("prevBtn").onclick=prev;
+$("shuffleBtn").onclick=()=>{ state.shuffle=!state.shuffle; updateToggles();
+  if(state.queue.length){
+    const cur=state.queue[state.qpos];
+    if(state.shuffle){
+      // Turning ON: shuffle, keeping the current track at the front.
+      shuffleArray(state.queue); const i=state.queue.indexOf(cur);
+      if(i>0){[state.queue[0],state.queue[i]]=[state.queue[i],state.queue[0]];} state.qpos=0;
+    } else {
+      // Turning OFF: restore natural library order so next/prev go sequentially.
+      const order=new Map(state.tracks.map((t,i)=>[t.id,i]));
+      state.queue.sort((a,b)=>(order.get(a)??0)-(order.get(b)??0));
+      state.qpos=state.queue.indexOf(cur);
+    }
+  }
+  renderQueue(); schedulePlaybackSave();
+};
+$("repeatBtn").onclick=()=>{ state.repeat=(state.repeat+1)%3; updateToggles(); schedulePlaybackSave(); };
+
+$("queueBtn").onclick=()=>toggleQueue();
+$("queueClose").onclick=()=>toggleQueue(false);
+$("npArt").onclick = ()=>{
+  const t = state.currentId ? trackById(state.currentId) : null;
+  if(t) openDetailPanel(t);
+};
+const dp=$("detailClose"); if(dp) dp.onclick=()=>toggleDetailPanel(false);
+$("navAlbums").onclick = () => setAlbumsView(true);
+$("navHome").onclick  = () => { setAlbumsView(false); currentAlbum="__all__"; _chromeKey=null; rebuildLibrary(); render(); };
+$("navNewPlaylist").onclick=()=>openModal("Create playlist","",(name)=>{ const p=createPlaylist(name,[]); currentAlbum="pl:"+p.id; _chromeKey=null; rebuildLibrary(); render(); toast('Created "'+p.name+'"'); });
+
+$("addBtn").onclick=$("addMusicBtn").onclick=()=>$("fileInput").click();
+$("addFolderBtn").onclick=addFolder;
+$("addMusicBtn2") && ($("addMusicBtn2").onclick=()=>$("fileInput").click());
+$("addFolderBtn2") && ($("addFolderBtn2").onclick=addFolder);
+$("fileInput").onchange=e=>{ addFiles(e.target.files); e.target.value=""; };
+$("folderInput").onchange=e=>{ addFiles(e.target.files); e.target.value=""; };
+
+// Multi-select action bar
+$("selDelete").onclick=deleteSelected;
+$("selClear").onclick=clearSelection;
+$("selIdentify").onclick=()=>{
+  const batch=[...state.selected].map(trackById).filter(Boolean);
+  if(!batch.length) return;
+  clearSelection();          // the rows are about to move to other albums
+  identifyTracksExplicit(batch, batch.length+" track"+(batch.length===1?"":"s"));
+};
+
+// Prefer the File System Access API for folders — it keeps writable handles so
+// tracks can later be DELETED from disk. Falls back to <input webkitdirectory>
+// on browsers without the API (Firefox/Safari); those tracks can't be deleted
+// from disk, only removed from the library.
+const FSA_SUPPORTED = typeof window.showDirectoryPicker === "function";
+async function addFolder(){
+  if(!FSA_SUPPORTED){ $("folderInput").click(); return; }
+  let dir;
+  try{ dir = await window.showDirectoryPicker({mode:"readwrite"}); }
+  catch(e){ return; }   // user cancelled the picker
+  const files=[];
+  try{ await walkDirHandle(dir, "", files); }
+  catch(e){ toast("Couldn't read that folder"); return; }
+  if(!files.length){ toast("No .mp3 / .ogg files found"); return; }
+  addFiles(files);
+}
+// Recursively collect audio File objects, tagging each with its FSA file handle,
+// its parent directory handle, and a folder-relative path (for dedup).
+async function walkDirHandle(dirHandle, prefix, out){
+  for await (const [name, handle] of dirHandle.entries()){
+    const path = prefix ? prefix + "/" + name : name;
+    if(handle.kind === "file"){
+      if(!/\.(mp3|ogg|oga)$/i.test(name)) continue;
+      let file; try{ file = await handle.getFile(); }catch(e){ continue; }
+      try{
+        file._fsHandle = handle;      // for fileHandle.remove()
+        file._fsParent = dirHandle;   // for parentHandle.removeEntry(name)
+        file._relPath  = path;
+      }catch(_){}
+      out.push(file);
+    } else if(handle.kind === "directory"){
+      await walkDirHandle(handle, path, out);
+    }
+  }
+}
+
+let _searchTimer=null;
+$("search").addEventListener("input",e=>{
+  const v=e.target.value.trim();
+  clearTimeout(_searchTimer);
+  _searchTimer=setTimeout(()=>{ state.search=v; render(); }, 120);
+});
+$("navSearch").onclick=()=>$("search").focus();
+
+/* drag & drop anywhere */
+const app=$("app");
+["dragenter","dragover"].forEach(ev=>app.addEventListener(ev,e=>{
+  e.preventDefault(); app.classList.add("dragover");
+}));
+["dragleave","drop"].forEach(ev=>app.addEventListener(ev,e=>{
+  e.preventDefault(); if(ev==="dragleave" && e.relatedTarget) return;
+  app.classList.remove("dragover");
+}));
+app.addEventListener("drop", async e=>{
+  e.preventDefault(); app.classList.remove("dragover");
+  const items=e.dataTransfer.items;
+  if(items && items.length && items[0].webkitGetAsEntry){
+    const files=[];
+    await Promise.all([...items].map(it=>{
+      const entry=it.webkitGetAsEntry && it.webkitGetAsEntry();
+      return entry?walkEntry(entry,files):Promise.resolve();
+    }));
+    addFiles(files);
+  } else {
+    addFiles(e.dataTransfer.files);
+  }
+});
+function walkEntry(entry,out){
+  return new Promise(res=>{
+    if(entry.isFile){
+      entry.file(f=>{
+        // Preserve the folder path so dedup can distinguish same-named files
+        // in different album folders (entry.fullPath is e.g. "/Album/01.mp3").
+        try{ f._relPath = (entry.fullPath||"").replace(/^\//,"") || f.name; }catch(_){}
+        out.push(f); res();
+      },()=>res());
+    }
+    else if(entry.isDirectory){
+      const reader=entry.createReader();
+      const readAll=()=>reader.readEntries(async ents=>{
+        if(!ents.length){res();return;}
+        await Promise.all(ents.map(en=>walkEntry(en,out)));
+        readAll();
+      },()=>res());
+      readAll();
+    } else res();
+  });
+}
+
+/* keyboard shortcuts */
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="INPUT") return;
+  // Multi-select: Delete/Backspace removes the selection, Escape clears it.
+  if(state.selected.size && (e.code==="Delete"||e.code==="Backspace")){ e.preventDefault(); deleteSelected(); return; }
+  if(state.selected.size && e.code==="Escape"){ clearSelection(); return; }
+  // Ctrl/Cmd-A selects every track in the current view.
+  if((e.metaKey||e.ctrlKey) && e.code==="KeyA"){
+    e.preventDefault();
+    for(const t of state.view) state.selected.add(t.id);
+    afterSelectionChange(); return;
+  }
+  if(e.code==="Space"){ e.preventDefault(); togglePlay(); }
+  else if(e.code==="ArrowRight" && e.shiftKey) next(false);
+  else if(e.code==="ArrowLeft" && e.shiftKey) prev();
+  else if(e.code==="ArrowRight"){ audio.currentTime=Math.min((audio.duration||0),audio.currentTime+5); }
+  else if(e.code==="ArrowLeft"){ audio.currentTime=Math.max(0,audio.currentTime-5); }
+});
+if("mediaSession" in navigator){
+  navigator.mediaSession.setActionHandler("play",togglePlay);
+  navigator.mediaSession.setActionHandler("pause",togglePlay);
+  navigator.mediaSession.setActionHandler("nexttrack",()=>next(false));
+  navigator.mediaSession.setActionHandler("previoustrack",prev);
+}
+
+// init
+audio.volume=1; $("vol").style.setProperty("--p","100%");
+updateToggles();
+
+/* ============================================================
+   STARTUP — restore the saved library from IndexedDB
+   Rebuilds object URLs from the stored Blobs / cover bytes so the
+   whole library (including art) is available offline on reopen.
+   ============================================================ */
+async function clearLibrary(){
+  if(!state.tracks.length && !state.playlists.length) return;
+  if(!confirm("Remove all tracks and playlists from your library? The original files on disk are not touched.")) return;
+  try{ audio.pause(); }catch(e){}
+  audio.removeAttribute("src");
+  // Revoke object URLs to free memory.
+  for(const t of state.tracks){
+    try{ URL.revokeObjectURL(t.url); }catch(e){}
+    if(t.picture){ try{ URL.revokeObjectURL(t.picture); }catch(e){} }
+  }
+  state.tracks=[]; state.view=[]; state.queue=[]; state.qpos=-1;
+  state.currentId=null; state.playing=false; state.search=""; state.playlists=[];
+  _manualIds.clear(); state.selected.clear(); _selAnchor=null; updateSelectionBar();
+  currentAlbum="__all__"; _libKey=null; _chromeKey=null; scan.remaining=0;
+  $("npTitle").textContent="—"; $("npArtist").textContent="Select a track";
+  $("npArt").innerHTML="♪"; document.title="Localify — Local MP3 / OGG Player"; updateNowFav();
+  await Promise.all([idbClear(DB_STORE), idbClear(DB_BLOBS), idbClear(DB_PL), idbClear(DB_APP)]);
+  rebuildLibrary(); render(); renderQueue();
+  toast("Library cleared");
+}
+
+async function restoreLibrary(){
+  let records, blobs;
+  try{
+    [records, blobs] = await Promise.all([idbAll(DB_STORE), idbAll(DB_BLOBS)]);
+  }catch(e){ records=[]; blobs=[]; }
+  // index blobs by key for O(1) join
+  const blobMap=new Map();
+  for(const b of (blobs||[])){ if(b && b.key) blobMap.set(b.key, b.blob); }
+  for(const r of (records||[])){
+    let blob = blobMap.get(r.key);
+    // v2 -> v3 migration: older records stored the blob inline on the metadata
+    // record. If so, adopt it and copy it into the new 'blobs' store once.
+    if(!blob && r.blob){ blob = r.blob; idbPut({key:r.key, blob}, DB_BLOBS); }
+    if(!blob){
+      // Remote (Spotify-imported) tracks have no audio blob — restore them from
+      // their saved metadata so the playlist survives a reload.
+      if(r.remote){
+        state.tracks.push({
+          id:_idSeq++, key:r.key, file:null, name:r.name, size:r.size||0,
+          title:r.title||baseName(r.name), artist:r.artist||"Unknown Artist",
+          album:r.album||"Spotify", albumArtist:r.albumArtist||null,
+          picture:r.albumArt||r.remoteArtUrl||null,
+          picBytes:null, picMime:null,
+          duration:r.duration||0, url:r.previewUrl||"",
+          ext:r.ext||"spotify", meta:true,
+          remote:true, previewUrl:r.previewUrl||null, spotifyUri:r.spotifyUri||null,
+          albumArt:r.albumArt||null, remoteArtUrl:r.albumArt||r.remoteArtUrl||null,
+          acoustid:r.acoustid||null, fingerprint:r.fingerprint||null,
+          fpVersion:r.fpVersion||0,
+          identified:!!r.identified, manualMeta:!!r.manualMeta,
+          favorite:!!r.favorite, favoritedAt:r.favoritedAt||0,
+          fileHandle:null, parentHandle:null, relPath:null
+        });
+      }
+      continue;                       // metadata with no audio -> skip
+    }
+    let url, picUrl=null;
+    try{ url = URL.createObjectURL(blob); }catch(e){ continue; } // skip corrupt
+    if(r.picBytes){
+      try{ picUrl = URL.createObjectURL(new Blob([r.picBytes],{type:r.picMime||"image/jpeg"})); }catch(e){}
+    }
+    state.tracks.push({
+      id:_idSeq++, key:r.key, file:blob, name:r.name, size:r.size,
+      title:r.title||baseName(r.name), artist:r.artist||"Unknown Artist",
+      album:r.album||"Local Files", albumArtist:r.albumArtist||null,
+      picture:picUrl||r.remoteArtUrl||null,
+      picBytes:r.picBytes||null, picMime:r.picMime||null,
+      duration:r.duration||0, url, ext:r.ext||(r.name.split(".").pop()||"").toLowerCase(),
+      meta: r.tagged===true, remoteArtUrl:r.remoteArtUrl||null,
+      acoustid:r.acoustid||null, fingerprint:r.fingerprint||null,
+      fpVersion:r.fpVersion||0,
+      identified:!!r.identified, manualMeta:!!r.manualMeta,
+      favorite:!!r.favorite, favoritedAt:r.favoritedAt||0,
+      fileHandle:r.fileHandle||null, parentHandle:r.parentHandle||null, relPath:r.relPath||null
+    });
+  }
+}
+
+/* ---- Duplicate detection ----
+   Tracks that are the same file imported twice under different roots. Grouped
+   on exact byte size AND identical filename — two genuinely different songs
+   matching on both is vanishingly unlikely, and when both copies have been
+   identified we additionally require the same AcoustID recording. Returns an
+   array of groups, each already ordered best-copy-first. */
+function findDuplicateGroups(){
+  const byIdentity = new Map();
+  for(const t of state.tracks){
+    if(t.remote) continue;                       // no file on disk to duplicate
+    const name = String(t.name||"").toLowerCase();
+    if(!name || !t.size) continue;
+    const id = t.size + "|" + name;
+    if(!byIdentity.has(id)) byIdentity.set(id, []);
+    byIdentity.get(id).push(t);
+  }
+  const groups = [];
+  for(const list of byIdentity.values()){
+    if(list.length < 2) continue;
+    // If both have been identified and disagree about what they are, they
+    // aren't duplicates — leave them alone.
+    const ids = new Set(list.map(t=>t.acoustid).filter(Boolean));
+    if(ids.size > 1) continue;
+    // Keep the richest copy: identified > has art > has a disk handle.
+    const score = t => (t.identified?4:0) + (t.picture?2:0) + ((t.fileHandle||t.parentHandle)?1:0);
+    groups.push(list.slice().sort((a,b)=> score(b) - score(a)));
+  }
+  return groups;
+}
+
+// Remove duplicate library entries. Library-only: never touches the disk, since
+// both entries point at the same underlying file.
+async function removeDuplicateTracks(){
+  const groups = findDuplicateGroups();
+  const doomed = groups.flatMap(g => g.slice(1));
+  if(!doomed.length){ toast("No duplicate tracks found"); return 0; }
+  const sample = doomed.slice(0,5).map(t=>"• "+escapeHtml(t.title||t.name)).join("<br>");
+  const ok = await confirmDialog({
+    title: "Remove duplicates?",
+    message: `Found <b>${doomed.length}</b> duplicate librar${doomed.length===1?"y entry":"y entries"} `
+      + `across ${groups.length} track${groups.length===1?"":"s"}.<br><br>${sample}`
+      + (doomed.length>5 ? `<br>…and ${doomed.length-5} more` : "")
+      + `<br><br>This only removes the extra entries from Localify — <b>no files are deleted from your disk</b>.`,
+    okLabel: "Remove duplicates"
+  });
+  if(!ok) return 0;
+  for(const t of doomed) await removeTrackEverywhere(t, {defer:true});
+  _chromeKey=null; _libKey=null;
+  rebuildLibrary(); render(); renderQueue(); schedulePlaybackSave();
+  toast("Removed "+doomed.length+" duplicate entr"+(doomed.length===1?"y":"ies"));
+  return doomed.length;
+}
+
+// Self-heal: retry the duration probe for restored tracks that never got one.
+// A 0 here shows as "--:--" and previously blocked the AcoustID lookup, and it
+// persisted forever because rescanUntagged() only looks at tags. Deliberately
+// separate from rescanUntagged so we don't re-read tags (and risk overwriting
+// metadata the user edited) just to recover a number. Tracks the <audio> probe
+// can't answer for are fixed by identifyTrack, which reads the exact duration
+// off the decoded buffer it already needs for the fingerprint.
+async function repairMissingDurations(){
+  const todo = state.tracks.filter(t => !t.remote && t.file && !validDuration(t.duration));
+  if(!todo.length) return;
+  let fixed = 0, i = 0;
+  const worker = async () => {
+    while(i < todo.length){
+      const t = todo[i++];
+      try{
+        await getDuration(t);
+        if(validDuration(t.duration)){ fixed++; persistTrack(t); }
+      }catch(e){ /* leave it at 0; identify can still recover it */ }
+    }
+  };
+  await Promise.all(Array.from({length:4}, worker));
+  if(fixed) scheduleRender();
+}
+
+// Self-heal: re-scan any restored track whose tags were never completed
+// (e.g. imported before the fast-scan fix, when the scan stalled mid-way).
+async function rescanUntagged(){
+  const todo = state.tracks.filter(t=>!t.meta);
+  if(!todo.length) return;
+  scan.remaining += todo.length;
+  scheduleRender();
+  toast("Finishing tags for "+todo.length+" track"+(todo.length>1?"s":"")+"…");
+  // Reuse the same worker pool + duration logic as a fresh import.
+  await runScan(todo);
+  toast("Library fully tagged");
+  // runScan calls fetchMissingArt at the end, but in case some tracks were
+  // already meta=true and skipped scan, run it explicitly here too.
+  fetchMissingArt();
+  identifyMissing();
+}
+
+async function restorePlaylists(){
+  let recs; try{ recs=await idbAll(DB_PL); }catch(e){ recs=[]; }
+  // newest first by created timestamp
+  (recs||[]).sort((a,b)=>(b.created||0)-(a.created||0));
+  state.playlists = (recs||[]).map(r=>({id:r.id, name:r.name||"Playlist", trackKeys:r.trackKeys||[], created:r.created||0, remote:!!r.remote, spotifyId:r.spotifyId||null, owner:r.owner||null}));
+}
+
+// Startup sequence: playlists + tracks first, then render, then resume playback.
+async function startup(){
+  await Promise.all([restoreLibrary(), restorePlaylists()]);
+  rebuildLibrary(); render();
+  if(state.tracks.length){
+    toast("Restored "+state.tracks.length+" track"+(state.tracks.length>1?"s":"")+" from your library");
+  }
+  await restorePlaybackState();
+  // Fill in tags for any tracks that weren't fully scanned before (self-heal).
+  rescanUntagged();
+  repairMissingDurations();
+  // Passive heads-up only — removing library entries is the user's call, so
+  // point them at Settings rather than deleting anything on startup.
+  const dupes = findDuplicateGroups().reduce((n,g)=>n+g.length-1, 0);
+  if(dupes) setTimeout(()=>toast(dupes+" duplicate track"+(dupes===1?"":"s")+" found — Settings › Remove duplicates"), 2600);
+  // Fetch remote art for any tracks still missing cover art after tag scan.
+  fetchMissingArt();
+  identifyMissing();
+}
+
+$("clearBtn") && ($("clearBtn").onclick=clearLibrary);
+updateToggles();   // paint the shuffle/repeat icons in their default state on load
+startup();
+
+/* ============================================================
+   RESIZABLE SIDEBAR — drag the divider to change the left panel width.
+   Width is stored on the .app grid as --sidebar-w and persisted to
+   localStorage so it survives reloads. Defaults to 20% of the window.
+   ============================================================ */
+(function initSidebarResize(){
+  const app = $("app");
+  const handle = $("sidebarResizer");
+  if(!app || !handle) return;
+  const MIN = 180;                          // px — keep the sidebar usable
+  const maxW = () => Math.min(window.innerWidth * 0.5, 560);  // don't let it eat the app
+
+  // Restore a saved width, else keep the CSS default (20%).
+  const saved = parseFloat(localStorage.getItem("localify.sidebarW"));
+  if(saved && isFinite(saved)){
+    app.style.setProperty("--sidebar-w", clamp(saved) + "px");
+  }
+  function clamp(px){ return Math.max(MIN, Math.min(maxW(), px)); }
+
+  let dragging = false;
+  function onMove(e){
+    if(!dragging) return;
+    const w = clamp(e.clientX - app.getBoundingClientRect().left - 8); // 8px app padding
+    app.style.setProperty("--sidebar-w", w + "px");
+  }
+  function onUp(){
+    if(!dragging) return;
+    dragging = false;
+    app.classList.remove("resizing");
+    document.removeEventListener("mousemove", onMove);
+    document.removeEventListener("mouseup", onUp);
+    const cur = parseFloat(getComputedStyle(app).getPropertyValue("--sidebar-w"));
+    if(isFinite(cur)) localStorage.setItem("localify.sidebarW", Math.round(cur));
+  }
+  handle.addEventListener("mousedown", (e)=>{
+    e.preventDefault();
+    dragging = true;
+    app.classList.add("resizing");
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  });
+  // Double-click resets to the 20% default.
+  handle.addEventListener("dblclick", ()=>{
+    app.style.removeProperty("--sidebar-w");
+    localStorage.removeItem("localify.sidebarW");
+  });
+})();
+</script>
+</body>
+</html>
