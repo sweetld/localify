@@ -50,3 +50,7 @@ three on GitHub's runners. Push a tag such as `v1.0.1` to publish a release.
 ## License
 
 [MIT](LICENSE) © 2026 Daud Sweetland
+
+`chromaprint.js` is a JavaScript port of the MIT-licensed parts of
+[Chromaprint](https://github.com/acoustid/chromaprint), © 2010-2016 Lukas
+Lalinsky. Its copyright and license notice are kept at the top of that file.

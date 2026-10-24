@@ -2,7 +2,35 @@
 // byte-for-byte against the `fpcalc` reference binary: both the raw
 // subfingerprint array and the compressed base64 string match exactly.
 // Regression test: .build/test.js (needs fpcalc on PATH).
-// Ported from acoustid/chromaprint src (MIT). Pure JS, runs in the browser.
+// Pure JS, runs in the browser.
+//
+// Ported from Chromaprint (https://github.com/acoustid/chromaprint): the
+// classifier tables, chroma pipeline and compressor format follow its
+// MIT-licensed sources (fingerprinter_configuration.cpp, chroma*.cpp,
+// image_builder.cpp, fingerprint_calculator.cpp, fingerprint_compressor.cpp).
+// Nothing here derives from Chromaprint's LGPL parts (the bundled FFmpeg
+// resampler / FFT); the resampler and FFT below are independent code.
+//
+//   Copyright (C) 2010-2016  Lukas Lalinsky
+//
+//   Permission is hereby granted, free of charge, to any person obtaining a
+//   copy of this software and associated documentation files (the
+//   "Software"), to deal in the Software without restriction, including
+//   without limitation the rights to use, copy, modify, merge, publish,
+//   distribute, sublicense, and/or sell copies of the Software, and to permit
+//   persons to whom the Software is furnished to do so, subject to the
+//   following conditions:
+//
+//   The above copyright notice and this permission notice shall be included
+//   in all copies or substantial portions of the Software.
+//
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+//   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+//   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+//   NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+//   USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 // Usage:
 //   const fp = Chromaprint.fingerprint(float32mono, sampleRate);  // -> base64 string
