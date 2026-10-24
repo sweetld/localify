@@ -3810,7 +3810,31 @@ async function startup(){
 
 $("clearBtn") && ($("clearBtn").onclick=clearLibrary);
 updateToggles();   // paint the shuffle/repeat icons in their default state on load
-startup();
+const _startupDone = startup().catch(()=>{});
+
+/* ============================================================
+   DESKTOP APP — files opened from the OS (file manager "Open with
+   Localify", double-click, command line) arrive via the Electron
+   preload bridge. They join the library like any other import and
+   start playing straight away. Absent in a normal browser tab.
+   ============================================================ */
+async function openExternalFiles(files){
+  await _startupDone;              // dedup needs the restored library
+  await addFiles(files);
+  const ids=[];
+  for(const f of files){
+    const t=state.tracks.find(t=>t.size===f.size && samePathTail(t.relPath||t.name, f._relPath||f.name));
+    if(t && !ids.includes(t.id)) ids.push(t.id);
+  }
+  if(ids.length){ buildQueue(ids); playAt(0); }
+}
+if(window.localifyDesktop){
+  window.localifyDesktop.onOpenFiles(list=>openExternalFiles(list.map(f=>{
+    const file=new File([f.data], f.name, {type:f.type});
+    file._relPath=f.path;          // full path keeps same-named files distinct
+    return file;
+  })));
+}
 
 /* ============================================================
    RESIZABLE SIDEBAR — drag the divider to change the left panel width.

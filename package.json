@@ -1,0 +1,137 @@
+{
+  "name": "localify",
+  "productName": "Localify",
+  "version": "1.0.0",
+  "description": "A Spotify-style player for your local MP3/OGG music library",
+  "main": "electron/main.js",
+  "desktopName": "localify.desktop",
+  "scripts": {
+    "start": "electron .",
+    "icons": "node scripts/make-icons.mjs",
+    "dist": "electron-builder --publish never",
+    "dist:linux": "electron-builder --linux --publish never",
+    "dist:win": "electron-builder --win --publish never",
+    "dist:mac": "electron-builder --mac --publish never",
+    "install:linux": "electron-builder --linux dir --publish never && sh scripts/install-linux.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sweetld/localify.git"
+  },
+  "keywords": [
+    "music",
+    "player",
+    "mp3",
+    "ogg",
+    "electron"
+  ],
+  "author": "Daud Sweetland <5811799+sweetld@users.noreply.github.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sweetld/localify/issues"
+  },
+  "homepage": "https://github.com/sweetld/localify#readme",
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "io.github.sweetld.localify",
+    "productName": "Localify",
+    "copyright": "Copyright © 2026 Daud Sweetland",
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "index.html",
+      "chromaprint.js",
+      "electron/**",
+      "build/icons/512x512.png",
+      "LICENSE"
+    ],
+    "fileAssociations": [
+      {
+        "ext": "mp3",
+        "name": "MP3 Audio",
+        "description": "MP3 audio file",
+        "mimeType": "audio/mpeg",
+        "role": "Viewer"
+      },
+      {
+        "ext": [
+          "ogg",
+          "oga"
+        ],
+        "name": "Ogg Audio",
+        "description": "Ogg Vorbis audio file",
+        "mimeType": "audio/ogg",
+        "role": "Viewer"
+      }
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "build/icons",
+      "category": "AudioVideo;Audio;Player",
+      "maintainer": "Daud Sweetland <5811799+sweetld@users.noreply.github.com>",
+      "synopsis": "Local MP3/OGG music player",
+      "mimeTypes": [
+        "audio/mp3",
+        "audio/x-mp3",
+        "audio/x-vorbis+ogg",
+        "audio/vorbis",
+        "audio/x-vorbis"
+      ],
+      "desktop": {
+        "entry": {
+          "Name": "Localify",
+          "GenericName": "Music Player",
+          "Comment": "Play your local MP3 and OGG music library",
+          "Keywords": "music;audio;player;mp3;ogg;"
+        }
+      },
+      "syncDesktopName": true
+    },
+    "deb": {
+      "packageCategory": "sound"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "license": "LICENSE",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Localify"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "category": "public.app-category.music",
+      "identity": "-",
+      "hardenedRuntime": false
+    }
+  }
+}
